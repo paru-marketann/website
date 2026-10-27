@@ -35,6 +35,12 @@ const words = statement.split(' ');
   /* each word starts dim; the script raises --lit from 0 to 1 */
   .w{opacity:calc(.14 + .86 * var(--lit, 0))}
 
+  /* Tablets and phones, and reduced motion: no pinning or lighting, just the statement in white */
+  @media (max-width: 900px){
+    .why-scroll{height:auto}
+    .why-sticky{position:static;height:auto;display:block}
+    .w{opacity:1}
+  }
   @media (prefers-reduced-motion: reduce){
     .why-scroll{height:auto}
     .why-sticky{position:static;height:auto;padding:128px 0}
@@ -47,6 +53,8 @@ const words = statement.split(' ');
   const words = track ? [...track.querySelectorAll<HTMLElement>('.w')] : [];
   const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   const para = track?.querySelector<HTMLElement>('.statement');
+  // the effect only runs on desktop widths (matches the 900px breakpoint in the CSS)
+  const desktop = window.matchMedia('(min-width: 901px)');
 
   // Fit: start from the CSS size and step down until the paragraph is no taller than the screen
   // minus a generous margin top and bottom (clear of the floating nav). Runs on load, once the
@@ -54,6 +62,7 @@ const words = statement.split(' ');
   const fitText = () => {
     if (!para) return;
     para.style.fontSize = '';
+    if (!desktop.matches) return;   // not pinned below desktop, so the CSS size stands
     let size = parseFloat(getComputedStyle(para).fontSize);
     const room = window.innerHeight - 2 * Math.max(96, window.innerHeight * .14);
     while (para.getBoundingClientRect().height > room && size > 18) {
