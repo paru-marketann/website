@@ -1,0 +1,66 @@
+---
+// Waitlist signup. POSTs JSON { form: 'waitlist', email } to PUBLIC_FORM_ENDPOINT (the Formspree
+// form shared with the contact form). While that is unset the form only shows the thank-you message
+// and stores nothing.
+---
+
+<form class="mk-form" id="mk-form" novalidate data-endpoint={import.meta.env.PUBLIC_FORM_ENDPOINT ?? ''}>
+  <label for="mk-email" class="mk-sr">Work email</label>
+  <input id="mk-email" name="email" type="email" autocomplete="email" placeholder="Work email" required />
+  <button class="mk-btn" type="submit">Join the waitlist</button>
+</form>
+<p class="mk-note" id="mk-note" aria-live="polite">Early access for a small group of teams.</p>
+
+<style>
+  .mk-form{display:flex;align-items:center;gap:8px;max-width:500px;background:var(--mk-field);border:1px solid var(--mk-line);border-radius:32px;corner-shape:squircle;padding:6px;transition:border-color .2s;isolation:isolate}  /* isolate: keeps the button glow above the fill */
+  .mk-form:focus-within{border-color:#55555C}
+  input{flex:1;min-width:0;height:52px;background:transparent;border:0;outline:0;
+    font:400 17px var(--mk-font);color:var(--mk-text);padding:0 12px 0 14px}
+  input::placeholder{color:var(--mk-muted)}
+  button{flex:none}
+  .mk-note{font:400 13px var(--mk-font);color:var(--mk-muted);margin:14px 0 0}
+  .mk-note.ok{color:var(--mk-text)}
+  .mk-note.err{color:#F08A70}
+
+  @media (max-width: 480px){
+    .mk-form{flex-direction:column;align-items:stretch;padding:8px}
+    input{flex:none;width:100%;padding:0 10px}
+    button{width:100%}
+  }
+</style>
+
+<script>
+  const form = document.getElementById('mk-form') as HTMLFormElement;
+  const input = document.getElementById('mk-email') as HTMLInputElement;
+  const note = document.getElementById('mk-note') as HTMLParagraphElement;
+  const endpoint = form.dataset.endpoint;
+
+  const show = (state: 'ok' | 'err', text: string) => {
+    note.className = `mk-note ${state}`;
+    note.textContent = text;
+  };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = input.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      show('err', 'Please enter a valid email address.');
+      input.focus();
+      return;
+    }
+    const done = () => { show('ok', 'Thanks, you’re on the list.'); form.reset(); };
+    if (!endpoint) { done(); return; }
+    try {
+      const r = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        // _subject sets the notification email's subject line in Formspree
+        body: JSON.stringify({ form: 'waitlist', email, _subject: 'New Marketann waitlist signup' }),
+      });
+      if (!r.ok) throw new Error(String(r.status));
+      done();
+    } catch {
+      show('err', 'Something went wrong. Please email info@marketann.ai instead.');
+    }
+  });
+</script>

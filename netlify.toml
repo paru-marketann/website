@@ -1,0 +1,10 @@
+# Netlify builds the site from this repo: every push to main deploys to production,
+# and every pull request gets its own deploy preview URL.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # Where the waitlist and contact forms post. Not a secret: it ends up in the page source anyway.
+  PUBLIC_FORM_ENDPOINT = "https://formspree.io/f/moeedkyg"

@@ -1,0 +1,150 @@
+---
+// Contact form. POSTs JSON { form: 'contact', name, email, company, message } to PUBLIC_FORM_ENDPOINT
+// (the Formspree form shared with the waitlist). While that is unset it opens a pre-filled email to info@marketann.ai
+// instead, so no message is silently dropped.
+---
+
+<section class="mk-section" id="contact" aria-labelledby="contact-title">
+  <div class="mk-wrap contact">
+    <div>
+      <h2 class="mk-h2" id="contact-title">Contact</h2>
+      <p class="mk-lead">Tell us a bit about your brand and what you’d like to create. Or email us at <a href="mailto:info@marketann.ai">info@marketann.ai</a>.</p>
+    </div>
+
+    <form class="cf" id="cf" novalidate data-endpoint={import.meta.env.PUBLIC_FORM_ENDPOINT ?? ''}>
+      <div class="row">
+        <div class="field">
+          <label for="cf-name">Name</label>
+          <input id="cf-name" name="name" type="text" autocomplete="name" required aria-describedby="cf-name-err" />
+          <p class="err" id="cf-name-err"></p>
+        </div>
+        <div class="field">
+          <label for="cf-email">Work email</label>
+          <input id="cf-email" name="email" type="email" autocomplete="email" required aria-describedby="cf-email-err" />
+          <p class="err" id="cf-email-err"></p>
+        </div>
+      </div>
+      <div class="field">
+        <label for="cf-company">Company <span class="opt">(optional)</span></label>
+        <input id="cf-company" name="company" type="text" autocomplete="organization" />
+      </div>
+      <div class="field">
+        <label for="cf-message">Message</label>
+        <textarea id="cf-message" name="message" rows="5" required aria-describedby="cf-message-err"></textarea>
+        <p class="err" id="cf-message-err"></p>
+      </div>
+      <!-- spam trap: hidden from people, bots tend to fill it in -->
+      <div class="trap" aria-hidden="true">
+        <label for="cf-website">Website</label>
+        <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+      <div class="actions">
+        <button class="mk-btn" type="submit">Send message</button>
+        <p class="status" id="cf-status" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<style>
+  .contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:64px;align-items:start}
+  .contact a{color:var(--mk-text);text-underline-offset:3px}
+
+  .cf{display:flex;flex-direction:column;gap:20px;isolation:isolate}  /* isolate: keeps the button glow above the page */
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .field{display:flex;flex-direction:column;gap:8px}
+  label{font:500 14px var(--mk-font);color:var(--mk-text)}
+  .opt{color:var(--mk-muted);font-weight:400}
+  input,textarea{width:100%;background:var(--mk-field);border:1px solid var(--mk-line);border-radius:16px;corner-shape:squircle;
+    font:400 17px/1.4 var(--mk-font);color:var(--mk-text);padding:14px 16px;outline:0;transition:border-color .2s}
+  textarea{resize:vertical;min-height:140px}
+  input:focus,textarea:focus{border-color:#55555C}
+  input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#F08A70}
+  .err{font:400 13px var(--mk-font);color:#F08A70;margin:0;min-height:0}
+  .err:empty{display:none}
+  .trap{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+  .actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:4px}
+  .status{font:400 14px var(--mk-font);color:var(--mk-muted);margin:0}
+  .status.ok{color:var(--mk-text)}
+  .status.bad{color:#F08A70}
+
+  @media (max-width: 900px){
+    .contact{grid-template-columns:1fr;gap:40px}
+  }
+  @media (max-width: 560px){
+    .row{grid-template-columns:1fr}
+    .actions .mk-btn{width:100%}
+  }
+</style>
+
+<script>
+  const form = document.getElementById('cf') as HTMLFormElement;
+  const status = document.getElementById('cf-status') as HTMLParagraphElement;
+  const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+  const endpoint = form.dataset.endpoint;
+  const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const field = (name: string) => form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement;
+  const setError = (name: string, msg: string) => {
+    const el = field(name);
+    const err = document.getElementById(`cf-${name}-err`);
+    el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    if (err) err.textContent = msg;
+  };
+  const setStatus = (state: '' | 'ok' | 'bad', text: string) => {
+    status.className = `status ${state}`;
+    status.textContent = text;
+  };
+
+  // clear a field's error as soon as it's edited
+  for (const name of ['name', 'email', 'message']) {
+    field(name).addEventListener('input', () => setError(name, ''));
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = {
+      name: field('name').value.trim(),
+      email: field('email').value.trim(),
+      company: field('company').value.trim(),
+      message: field('message').value.trim(),
+    };
+
+    const errors: Record<string, string> = {
+      name: data.name ? '' : 'Please tell us your name.',
+      email: EMAIL.test(data.email) ? '' : 'Please enter a valid email address.',
+      message: data.message ? '' : 'Please add a message.',
+    };
+    Object.entries(errors).forEach(([k, v]) => setError(k, v));
+    const firstBad = Object.keys(errors).find((k) => errors[k]);
+    if (firstBad) { field(firstBad).focus(); setStatus('', ''); return; }
+
+    // bots fill in the hidden field: pretend it worked and send nothing
+    if (field('website').value) { form.reset(); setStatus('ok', 'Thanks, we’ll be in touch soon.'); return; }
+
+    if (!endpoint) {
+      const body = `${data.message}\n\n${data.name}${data.company ? `, ${data.company}` : ''}\n${data.email}`;
+      window.location.href = `mailto:info@marketann.ai?subject=${encodeURIComponent(`Enquiry from ${data.name}`)}&body=${encodeURIComponent(body)}`;
+      setStatus('ok', 'Your email app should open with your message ready to send.');
+      return;
+    }
+
+    button.disabled = true;
+    setStatus('', 'Sending…');
+    try {
+      const r = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        // _subject sets the notification email's subject line in Formspree
+        body: JSON.stringify({ form: 'contact', ...data, _subject: `Marketann enquiry from ${data.name}` }),
+      });
+      if (!r.ok) throw new Error(String(r.status));
+      form.reset();
+      setStatus('ok', 'Thanks, we’ll be in touch soon.');
+    } catch {
+      setStatus('bad', 'Something went wrong. Please email info@marketann.ai instead.');
+    } finally {
+      button.disabled = false;
+    }
+  });
+</script>

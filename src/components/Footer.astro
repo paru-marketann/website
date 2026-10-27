@@ -1,0 +1,25 @@
+---
+import Logo from './Logo.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mk-foot">
+  <div class="mk-wrap">
+    <a class="mk-logo" href="#top" aria-label="Marketann"><Logo /></a>
+    <div class="mk-foot-r">
+      <a class="mk-mail" href="mailto:info@marketann.ai">info@marketann.ai</a>
+      <small>© {year} Marketann</small>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .mk-foot{border-top:1px solid var(--mk-line);padding:48px 0 56px}
+  .mk-wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+  .mk-logo :global(svg){height:16px}
+  .mk-foot-r{display:flex;gap:32px;align-items:center;flex-wrap:wrap}
+  .mk-mail{font:500 16px var(--mk-font);text-decoration:none;border-bottom:1px solid var(--mk-muted);padding-bottom:2px;transition:border-color .2s}
+  .mk-mail:hover{border-bottom-color:var(--mk-text)}
+  small{font:400 13px var(--mk-font);color:var(--mk-muted)}
+</style>

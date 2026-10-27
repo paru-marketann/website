@@ -1,0 +1,206 @@
+/* Brand engine animation. Global (not Astro-scoped) because the travelling dots are created
+   at runtime; every selector is namespaced under .be so the generic class names (.a, .p, .logo,
+   .btn, ...) can't leak into the rest of the site. */
+.be{
+  --ink:#1E2240; --coral:#F2603F; --teal:#1FA39A; --sand:#EFE6D6; --cream:#FAF6EE;
+  --line:#E4E2DC; --muted:#8A8A93; --dot-ink:#9AA0C8;
+  /* Marketann's own UI (the platform panel) uses the site font */
+  --ui: var(--mk-font);
+  /* Fieldwork's (example) brand type: Gloock for display, Familjen Grotesk for everything else.
+     Loaded from Google Fonts in layouts/Base.astro. */
+  --sans: "Familjen Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --serif: "Gloock", Georgia, "Times New Roman", serif;
+}
+.be{position:relative;width:100%;max-width:640px;aspect-ratio:4/5;overflow:hidden;background:transparent;font-family:var(--ui);-webkit-font-smoothing:antialiased}
+.be *{box-sizing:border-box}
+.be-stage{position:absolute;left:0;top:0;width:720px;height:900px;transform-origin:0 0}
+.be-all,.be-group,.be-layer{position:absolute;left:0;top:0;width:720px;height:900px}
+.be-group{transform-origin:360px 450px}
+.be .a{position:absolute;left:0;top:0;will-change:transform,opacity}
+.be .p{position:absolute;will-change:transform,opacity}
+
+/* Brand pieces */
+.be .sw{display:flex;flex-direction:column;align-items:center;gap:7px}
+.be .sw i{display:block;width:64px;height:64px;border-radius:50%}
+.be .sw span{font:500 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#6B6B75}
+.be .aa-serif{font:400 96px/1 var(--serif);color:var(--ink)}
+.be .aa-sans{font:700 60px/1 var(--sans);color:var(--ink);letter-spacing:-.02em}
+.be .quarter{width:72px;height:72px;background:var(--coral);border-top-left-radius:100%}
+.be .square{width:60px;height:60px;background:var(--teal)}
+.be .gridi{width:64px;height:64px;border:2px solid var(--ink);
+  background:
+    linear-gradient(90deg,transparent calc(33.3% - 1px),var(--ink) calc(33.3% - 1px),var(--ink) calc(33.3% + 1px),transparent calc(33.3% + 1px),transparent calc(66.6% - 1px),var(--ink) calc(66.6% - 1px),var(--ink) calc(66.6% + 1px),transparent calc(66.6% + 1px)),
+    linear-gradient(0deg,transparent calc(33.3% - 1px),var(--ink) calc(33.3% - 1px),var(--ink) calc(33.3% + 1px),transparent calc(33.3% + 1px),transparent calc(66.6% - 1px),var(--ink) calc(66.6% - 1px),var(--ink) calc(66.6% + 1px),transparent calc(66.6% + 1px))}
+.be .chip{width:348px;background:#17171A;border:1px solid #2A2A2F;border-radius:12px;corner-shape:squircle;padding:13px 16px}
+.be .chip .v{display:block;font:400 16px/1.2 var(--ui);color:var(--mk-text);white-space:nowrap}
+
+/* ---------- The platform: engine + prompt as one panel, styled like the rest of the site ---------- */
+/* Panel is 680 wide in group coordinates; its height is animated from 366 to 462 to make room for the prompt (see brand-engine.ts) */
+.be .engine{width:680px;height:366px;background:#111113;border-radius:24px;corner-shape:squircle;overflow:hidden;box-shadow:0 0 0 1px #2A2A2F,0 40px 80px -40px rgba(0,0,0,.7)}
+.be .eh{height:46px;background:#18181B;color:var(--mk-text);display:flex;align-items:center;gap:10px;padding:0 18px;font:500 14px var(--ui);box-shadow:inset 0 -1px 0 #232327}
+.be .eh .dot{width:10px;height:10px;border-radius:50%;background:var(--mk-grad)}
+.be .eh .who{margin-left:auto;color:var(--mk-muted);font-weight:400;font-size:12px}
+.be .run{position:absolute;left:0;right:0;top:46px;height:3px;opacity:0;
+  background:linear-gradient(90deg,transparent,var(--mk-yellow),var(--mk-gold),var(--mk-amber),transparent);background-size:50% 100%;background-repeat:no-repeat;animation:be-run 1.1s linear infinite}
+@keyframes be-run{from{background-position:-50% 0}to{background-position:150% 0}}
+.be .zone{position:absolute;top:62px;width:314px;height:286px;background:#18181B;border-radius:12px;corner-shape:squircle}
+.be .zone b{position:absolute;left:12px;top:10px;font:500 10px var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--mk-muted)}
+/* gradient outline: gradient background with the middle masked out */
+.be .ring{width:686px;height:372px;border-radius:27px;corner-shape:squircle;padding:2px;background:var(--mk-grad);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+
+/* Prompt: same look as the waitlist field on the site */
+.be .prompt{width:644px;height:80px;background:var(--mk-field);border:1px solid var(--mk-line);border-radius:24px;corner-shape:squircle;display:flex;align-items:center;padding:0 9px 0 22px;gap:14px}
+.be .prompt .spark{flex:none;width:28px;height:28px}
+.be .ptext{flex:1;font:400 29px var(--ui);color:var(--mk-text);white-space:nowrap;overflow:hidden;letter-spacing:-.01em}
+.be .ph{color:var(--mk-muted)}
+.be .caret{display:inline-block;width:2px;height:31px;background:linear-gradient(var(--mk-yellow),var(--mk-amber));vertical-align:-4px;margin:0 1px;animation:be-blink 1s steps(1) infinite}
+@keyframes be-blink{50%{opacity:0}}
+.be .send{position:relative;width:60px;height:60px;border-radius:30px;corner-shape:squircle;background:var(--mk-text);display:grid;place-items:center;flex:none}
+.be .send path{stroke:var(--mk-bg)}
+/* sits 2px proud of the prompt, behind it, so it reads as a gradient border + glow while generating */
+.be .pglow{width:648px;height:84px;border-radius:26px;corner-shape:squircle;background:var(--mk-grad);box-shadow:0 0 36px 4px rgba(246,196,67,.22)}
+.be .dotf{width:13px;height:13px;border-radius:50%}
+
+/* Shared output bits */
+.be .logo{display:flex;align-items:center;gap:8px;font:600 17px var(--serif);color:var(--ink)}
+.be .mark{width:18px;height:18px;background:var(--coral);border-top-left-radius:100%}
+.be .lines{display:flex;flex-direction:column;gap:7px}
+.be .lines i{display:block;height:5px;border-radius:3px;background:#E3E1DB}
+
+/* Website */
+.be .site{width:620px;height:400px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 24px 60px -24px rgba(30,34,64,.3),0 0 0 1px var(--line)}
+.be .chrome{position:absolute;left:0;top:0;right:0;height:30px;background:#F3F2EE;display:flex;align-items:center;gap:6px;padding-left:12px}
+.be .chrome i{width:8px;height:8px;border-radius:50%;background:#D6D4CE}
+.be .chrome em{margin-left:14px;font:500 10px var(--sans);font-style:normal;color:var(--muted);background:#fff;border-radius:6px;padding:4px 40px 4px 10px}
+.be .s-nav{left:28px;right:28px;top:46px;height:28px;display:flex;align-items:center;justify-content:space-between}
+.be .s-nav .links{display:flex;gap:18px;align-items:center;font:500 12px var(--sans);color:#55576B}
+.be .s-nav .links b{font-weight:600;color:#fff;background:var(--ink);padding:6px 11px;border-radius:7px}
+.be .s-h{left:28px;top:96px;font:400 46px/1.02 var(--serif);color:var(--ink);letter-spacing:-.01em}
+.be .s-sub{left:28px;top:204px;width:270px;font:13px/1.5 var(--sans);color:#55576B}
+.be .s-cta{left:28px;top:262px;display:flex;gap:14px;align-items:center;font:600 13px var(--sans)}
+.be .btn{background:var(--coral);color:#fff;padding:10px 16px;border-radius:8px}
+.be .s-cta u{color:var(--ink);text-underline-offset:3px}
+.be .s-art{left:340px;top:82px;width:252px;height:220px;background:var(--sand);border-radius:12px;overflow:hidden}
+.be .s-art .c{position:absolute;left:22px;top:46px;width:140px;height:140px;border-radius:50%;background:var(--teal)}
+.be .s-art .q{position:absolute;right:0;bottom:0;width:110px;height:110px;background:var(--ink);border-top-left-radius:100%}
+.be .s-art .s{position:absolute;right:26px;top:24px;width:62px;height:62px;background:var(--coral)}
+.be .s-proof{left:28px;right:28px;top:322px;height:56px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.be .s-proof div{border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.be .s-proof b{display:block;font:400 19px/1.1 var(--serif);color:var(--ink)}
+.be .s-proof span{font:11px var(--sans);color:var(--muted)}
+
+/* Deck */
+.be .deck{width:620px;height:349px;background:var(--ink);border-radius:12px;overflow:hidden;box-shadow:0 24px 60px -24px rgba(30,34,64,.45)}
+.be .d-q{right:0;top:0;width:210px;height:210px;background:var(--coral);border-bottom-left-radius:100%}
+.be .d-sq{right:44px;bottom:44px;width:46px;height:46px;background:var(--teal)}
+.be .d-label{left:44px;top:40px;font:600 11px var(--sans);letter-spacing:.16em;color:var(--coral)}
+.be .d-big{left:40px;top:60px;font:400 124px/1 var(--serif);color:var(--cream);letter-spacing:-.02em}
+.be .d-sub{left:44px;top:194px;width:360px;font:400 27px/1.15 var(--serif);color:var(--cream)}
+.be .d-sub small{display:block;margin-top:12px;font:11px var(--sans);color:rgba(250,246,238,.55)}
+.be .d-foot{left:44px;right:44px;top:306px;display:flex;justify-content:space-between;align-items:center;font:500 11px var(--sans);color:rgba(250,246,238,.6)}
+.be .d-foot .logo,.be .r-title .logo,.be .c-front .logo{color:var(--sand);font-size:14px}
+.be .d-foot .mark,.be .c-front .mark{width:14px;height:14px}
+
+/* LinkedIn ad */
+.be .ad{width:380px;height:470px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 24px 60px -24px rgba(30,34,64,.3),0 0 0 1px var(--line)}
+.be .a-head{left:16px;right:16px;top:16px;display:flex;gap:10px;align-items:center}
+.be .av{width:36px;height:36px;border-radius:50%;background:var(--ink);position:relative;overflow:hidden;flex:none}
+.be .av:after{content:"";position:absolute;right:7px;bottom:7px;width:16px;height:16px;background:var(--coral);border-top-left-radius:100%}
+.be .a-head b,.be .so-head b{display:block;font:600 13px var(--sans);color:var(--ink)}
+.be .a-head span,.be .so-head span{font:11px var(--sans);color:var(--muted)}
+.be .a-cap{left:16px;right:16px;top:64px;font:13px/1.45 var(--sans);color:#33354A}
+.be .a-img{left:0;top:110px;width:380px;height:272px;background:var(--sand);overflow:hidden}
+.be .a-img .c{position:absolute;right:-24px;bottom:-24px;width:150px;height:150px;border-radius:50%;background:var(--teal)}
+.be .a-img .q{position:absolute;left:24px;bottom:24px;width:80px;height:80px;background:var(--coral);border-top-left-radius:100%}
+.be .a-imgh{left:24px;top:138px;font:400 40px/1.02 var(--serif);color:var(--ink)}
+.be .a-cta{left:16px;right:16px;top:396px;height:58px;display:flex;justify-content:space-between;align-items:center}
+.be .a-cta span{display:block;font:11px var(--sans);color:var(--muted)}
+.be .a-cta b{display:block;font:600 13px var(--sans);color:var(--ink)}
+.be .a-cta em{font:600 12px var(--sans);font-style:normal;color:var(--ink);border:1.5px solid var(--ink);border-radius:999px;padding:7px 14px}
+
+/* Annual report */
+.be .report{width:580px;height:380px}
+.be .r-cover{left:0;top:0;width:282px;height:380px;background:var(--ink);border-radius:6px 2px 2px 6px;overflow:hidden;box-shadow:0 24px 50px -24px rgba(30,34,64,.5)}
+.be .r-cover .q{position:absolute;right:0;bottom:0;width:190px;height:190px;background:var(--coral);border-top-left-radius:100%}
+.be .r-cover .s{position:absolute;left:28px;bottom:28px;width:40px;height:40px;background:var(--teal)}
+.be .r-title{left:28px;top:30px;color:var(--cream)}
+.be .r-title h4{margin:22px 0 0;font:400 40px/1.04 var(--serif)}
+.be .r-page{left:292px;top:0;width:288px;height:380px;background:#fff;border-radius:2px 6px 6px 2px;box-shadow:0 24px 50px -24px rgba(30,34,64,.35),0 0 0 1px var(--line)}
+.be .r-head{left:318px;top:30px;width:236px}
+.be .r-head small,.be .kick{display:block;font:600 10px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--coral);margin-bottom:8px}
+.be .r-head b{font:400 24px/1.12 var(--serif);color:var(--ink)}
+.be .r-chart{left:318px;top:118px;width:236px;height:120px;display:flex;align-items:flex-end;gap:14px;border-bottom:1.5px solid var(--ink);padding:0 6px}
+.be .r-chart i{flex:1;border-radius:4px 4px 0 0;background:var(--teal)}
+.be .r-text{left:318px;top:256px;width:236px}
+.be .r-text b{font:400 28px/1 var(--serif);color:var(--coral)}
+.be .r-text span{font:11px var(--sans);color:var(--muted);margin-left:6px}
+.be .r-text .lines{margin-top:14px}
+
+/* T-shirt */
+.be .tee{width:440px;height:440px;background:var(--sand);border-radius:18px;overflow:hidden}
+.be .t-bg{right:-50px;bottom:-50px;width:220px;height:220px;border-radius:50%;background:var(--teal)}
+.be .t-shirt{left:60px;top:60px}
+.be .t-print{left:160px;top:172px;width:120px;text-align:center;color:var(--cream);font:400 19px/1.05 var(--serif)}
+.be .t-print i{display:block;width:40px;height:40px;margin:0 auto 10px;background:var(--coral);border-top-left-radius:100%}
+.be .t-tag{left:22px;top:22px;background:#fff;border-radius:999px;padding:7px 12px;font:600 11px var(--sans);color:var(--ink);box-shadow:0 6px 16px -10px rgba(30,34,64,.4)}
+
+/* Business card + letterhead */
+.be .stat{width:560px;height:440px}
+.be .l-sheet{left:20px;top:8px;width:300px;height:424px;background:#fff;border-radius:4px;overflow:hidden;box-shadow:0 24px 50px -24px rgba(30,34,64,.35),0 0 0 1px var(--line)}
+.be .l-sheet .q{position:absolute;right:0;top:0;width:70px;height:70px;background:var(--teal);border-bottom-left-radius:100%}
+.be .l-sheet .bar{position:absolute;left:0;right:0;bottom:0;height:8px;background:var(--ink)}
+.be .l-sheet .foot{position:absolute;left:28px;bottom:20px;font:8px var(--sans);color:var(--muted)}
+.be .l-sheet .logo{position:absolute;left:28px;top:28px;font-size:15px}
+.be .l-sheet .mark{width:15px;height:15px}
+.be .l-body{left:48px;top:96px;width:244px}
+.be .l-body .lines i{background:#E8E6E0}
+.be .c-back,.be .c-front{width:280px;height:160px;border-radius:10px;overflow:hidden;box-shadow:0 22px 40px -20px rgba(30,34,64,.55)}
+.be .c-back{left:268px;top:150px;background:var(--sand);padding:22px}
+
+.be .c-front{left:248px;top:250px;background:var(--ink)}
+.be .c-front .in{position:absolute;inset:0;padding:20px 22px}
+.be .c-front .q{position:absolute;right:0;top:0;width:64px;height:64px;background:var(--coral);border-bottom-left-radius:100%}
+.be .c-front b{position:absolute;left:22px;bottom:44px;font:400 20px var(--serif);color:var(--cream)}
+.be .c-front .meta{position:absolute;left:22px;bottom:24px;font:10px var(--sans);color:rgba(250,246,238,.6)}
+
+/* Social */
+.be .social{width:620px;height:260px}
+.be .so-head{left:0;top:0;display:flex;gap:10px;align-items:center}
+.be .sq{top:56px;width:196px;height:196px;border-radius:12px;overflow:hidden;box-shadow:0 18px 40px -22px rgba(30,34,64,.45)}
+.be .sq h5{position:absolute;left:18px;top:18px;margin:0;font:400 32px/1.02 var(--serif)}
+.be .sq1{left:0;background:var(--coral)} .be .sq1 h5{color:var(--cream)}
+.be .sq1 .q{position:absolute;right:0;bottom:0;width:90px;height:90px;background:var(--ink);border-top-left-radius:100%}
+.be .sq2{left:212px;background:var(--sand)} .be .sq2 h5{color:var(--ink)}
+.be .sq2 .c{position:absolute;left:-20px;bottom:-30px;width:130px;height:130px;border-radius:50%;background:var(--teal)}
+.be .sq3{left:424px;background:var(--ink)}
+.be .sq3 h5{font-size:64px;color:var(--cream);top:30px}
+.be .sq3 span{position:absolute;left:18px;top:110px;width:150px;font:12px/1.4 var(--sans);color:var(--sand)}
+.be .sq3 .s{position:absolute;right:18px;bottom:18px;width:28px;height:28px;background:var(--teal)}
+
+/* Motion graphic */
+.be .motion{width:600px;height:338px;background:var(--ink);border-radius:12px;overflow:hidden;box-shadow:0 24px 60px -24px rgba(30,34,64,.45)}
+.be .m-label{left:24px;top:20px;font:600 10px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:rgba(250,246,238,.6)}
+.be .m-c{left:60px;top:44px} .be .m-c i{display:block;width:120px;height:120px;border-radius:50%;background:var(--teal);animation:m-bob 1.6s ease-in-out infinite alternate}
+.be .m-q{right:44px;top:40px} .be .m-q i{display:block;width:140px;height:140px;background:var(--coral);border-top-left-radius:100%;transform-origin:100% 100%;animation:m-swing 2.4s ease-in-out infinite alternate}
+.be .m-s{left:230px;top:92px} .be .m-s i{display:block;width:44px;height:44px;background:var(--sand);animation:m-slide 2s ease-in-out infinite alternate}
+.be .m-h{left:60px;top:190px;font:400 40px/1.02 var(--serif);color:var(--cream)}
+.be .m-ctrl{left:24px;right:24px;top:298px;display:flex;align-items:center;gap:12px;font:500 11px var(--sans);color:rgba(250,246,238,.7)}
+.be .m-ctrl .tri{width:0;height:0;border-left:11px solid var(--cream);border-top:7px solid transparent;border-bottom:7px solid transparent}
+.be .m-ctrl .track{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,.18);overflow:hidden}
+.be .m-ctrl .track i{display:block;height:100%;width:100%;background:var(--coral);transform-origin:0 0;animation:m-prog 4s linear infinite}
+@keyframes m-bob{from{transform:translateY(0)}to{transform:translateY(34px)}}
+@keyframes m-swing{from{transform:rotate(0)}to{transform:rotate(-35deg)}}
+@keyframes m-slide{from{transform:translateX(0) rotate(0)}to{transform:translateX(70px) rotate(90deg)}}
+@keyframes m-prog{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+
+/* ---------- On the dark page (brand outputs keep their own colours) ---------- */
+.be .aa-serif,.be .aa-sans{color:#EDEBE6}
+.be .gridi{--ink:#EDEBE6}
+.be #pc-ink i{box-shadow:0 0 0 1px #3A3D58}
+.be .sw span{color:#76767F}
+.be .deck,.be .motion,.be .r-cover,.be .sq3,.be .c-front{box-shadow:0 0 0 1px rgba(255,255,255,.09)}
+.be .site,.be .ad,.be .r-page,.be .l-sheet{box-shadow:none}
+.be .so-head b{color:#EDEBE6}

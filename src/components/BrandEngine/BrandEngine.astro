@@ -1,0 +1,126 @@
+---
+// "Brand engine" hero animation: brand pieces gather into the platform
+// (engine + prompt, in Marketann's own styling), then the prompt produces
+// a run of on-brand outputs for an example company (Fieldwork). Markup is laid out on a fixed
+// 720x900 stage that brand-engine.ts scales to fit the container.
+import './brand-engine.css';
+---
+
+<div class="be" id="be" role="img" aria-label="Animation: scattered brand elements such as colours, type, shapes, positioning and proof points come together into a brand engine. Someone types requests into a prompt box, and the engine produces a website, a pitch deck, a LinkedIn ad, an annual report, a t-shirt, a business card and letterhead, social posts and a company explainer video, all in the same brand.">
+  <div class="be-stage" id="be-stage">
+    <div class="be-all" id="be-all">
+
+      <!-- Outputs sit BEHIND the platform panel, so they emerge from under the prompt -->
+      <div class="be-layer" id="outputs">
+        <div class="a site" id="o-site">
+          <div class="chrome"><i></i><i></i><i></i><em>fieldwork.co</em></div>
+          <div class="p s-nav"><div class="logo"><span class="mark"></span>Fieldwork</div><div class="links">Product<span>Pricing</span><span>About</span><b>Sign in</b></div></div>
+          <div class="p s-h">Plan less.<br>Ship more.</div>
+          <div class="p s-sub">Planning for B2B teams. Plain, fast and built around the way you already work.</div>
+          <div class="p s-art"><span class="c"></span><span class="s"></span><span class="q"></span></div>
+          <div class="p s-cta"><span class="btn">Start free</span><u>See how it works</u></div>
+          <div class="p s-proof"><div><b>3×</b><span>faster to first draft</span></div><div><b>40+</b><span>ops teams</span></div><div><b>1 plan</b><span>for every project</span></div></div>
+        </div>
+
+        <div class="a deck" id="o-deck">
+          <div class="p d-q"></div>
+          <div class="p d-label">PROOF</div>
+          <div class="p d-big">3×</div>
+          <div class="p d-sub">faster to first draft for ops teams<small>Customer survey, 40 teams</small></div>
+          <div class="p d-sq"></div>
+          <div class="p d-foot"><div class="logo"><span class="mark"></span>Fieldwork</div><span>04</span></div>
+        </div>
+
+        <div class="a ad" id="o-ad">
+          <div class="p a-head"><span class="av"></span><div><b>Fieldwork</b><span>Promoted</span></div></div>
+          <div class="p a-cap">Ops leads: your plan shouldn’t take longer than the work.</div>
+          <div class="p a-img"><span class="c"></span><span class="q"></span></div>
+          <div class="p a-imgh">Plan less.<br>Ship more.</div>
+          <div class="p a-cta"><div><span>fieldwork.co</span><b>Start free in minutes</b></div><em>Learn more</em></div>
+        </div>
+
+        <div class="a report" id="o-report">
+          <div class="p r-cover"><span class="q"></span><span class="s"></span></div>
+          <div class="p r-title"><div class="logo"><span class="mark"></span>Fieldwork</div><h4>Annual<br>Report<br>2026</h4></div>
+          <div class="p r-page"></div>
+          <div class="p r-head"><small>02 · Highlights</small><b>A year of planning less and shipping more</b></div>
+          <div class="p r-chart"><i style="height:38%"></i><i style="height:52%"></i><i style="height:71%"></i><i style="height:100%;background:var(--coral)"></i></div>
+          <div class="p r-text"><b>3×</b><span>faster to first draft</span><div class="lines"><i></i><i style="width:92%"></i><i style="width:96%"></i><i style="width:58%"></i></div></div>
+        </div>
+
+        <div class="a tee" id="o-tee">
+          <div class="p t-bg"></div>
+          <div class="p t-shirt"><svg width="320" height="330" viewBox="0 0 320 330"><path d="M112 12 60 32 8 92l44 32 20-20v214h176V104l20 20 44-32-52-60-52-20c-8 22-26 34-48 34s-40-12-48-34Z" fill="#1E2240"/><path d="M112 12c8 22 26 34 48 34s40-12 48-34" fill="none" stroke="#2C3158" stroke-width="6"/></svg></div>
+          <div class="p t-print"><i></i>Plan less.<br>Ship more.</div>
+          <div class="p t-tag">Fieldwork tee</div>
+        </div>
+
+        <div class="a stat" id="o-stat">
+          <div class="p l-sheet"><span class="q"></span><div class="logo"><span class="mark"></span>Fieldwork</div><span class="foot">fieldwork.co · 20 Example Street, London</span><span class="bar"></span></div>
+          <div class="p l-body"><div class="lines"><i style="width:40%"></i><i style="width:55%;margin-bottom:16px"></i><i></i><i style="width:94%"></i><i style="width:97%"></i><i style="width:70%;margin-bottom:12px"></i><i></i><i style="width:90%"></i><i style="width:60%"></i></div></div>
+          <div class="p c-back"><div class="logo"><span class="mark"></span>Fieldwork</div></div>
+          <div class="p c-front"><span class="q"></span><div class="in"><div class="logo"><span class="mark"></span>Fieldwork</div></div><b>Alex Morgan</b><span class="meta">Head of Operations · alex@fieldwork.co</span></div>
+        </div>
+
+        <div class="a social" id="o-social">
+          <div class="p so-head"><span class="av"></span><div><b>@fieldwork</b><span>3 new posts</span></div></div>
+          <div class="p sq sq1"><h5>Plan<br>less.</h5><span class="q"></span></div>
+          <div class="p sq sq2"><h5>Ship<br>more.</h5><span class="c"></span></div>
+          <div class="p sq sq3"><h5>40+</h5><span>ops teams plan with Fieldwork</span><i class="s"></i></div>
+        </div>
+
+        <div class="a motion" id="o-motion">
+          <div class="p m-label">Company explainer</div>
+          <div class="p m-c"><i></i></div>
+          <div class="p m-q"><i></i></div>
+          <div class="p m-s"><i></i></div>
+          <div class="p m-h">Plan less.<br>Ship more.</div>
+          <div class="p m-ctrl"><span class="tri"></span><span class="track"><i></i></span><span>0:15</span></div>
+        </div>
+      </div>
+
+      <!-- Engine group: the platform (engine + prompt) moves as one -->
+      <div class="be-group" id="be-group">
+        <div class="a ring" id="ring"></div>
+        <div class="a engine" id="engine">
+          <div class="eh"><span class="dot"></span>Brand engine<span class="who">Fieldwork</span></div>
+          <div class="run" id="run"></div>
+          <div class="zone" style="left:18px"><b>Look</b></div>
+          <div class="zone" style="left:348px"><b>Message</b></div>
+        </div>
+        <!-- Prompt: docked in the engine panel, so the platform reads as one thing -->
+        <div class="a pglow" id="pglow"></div>
+        <div class="a prompt" id="prompt">
+          <svg class="spark" viewBox="0 0 24 24"><defs><linearGradient id="be-spark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE680"/><stop offset=".5" stop-color="#F6C443"/><stop offset="1" stop-color="#F09C3C"/></linearGradient></defs><path d="M12 2c.6 4.9 2.6 7.4 8 8.5v1c-5.4 1.1-7.4 3.6-8 8.5h-1c-.6-4.9-2.6-7.4-8-8.5v-1c5.4-1.1 7.4-3.6 8-8.5h1Z" fill="url(#be-spark)"/></svg>
+          <div class="ptext" id="ptext"></div>
+          <div class="send" id="send"><svg width="24" height="24" viewBox="0 0 16 16" fill="none"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="a sw" id="pc-ink"><i style="background:var(--ink)"></i><span>#1E2240</span></div>
+        <div class="a sw" id="pc-coral"><i style="background:var(--coral)"></i><span>#F2603F</span></div>
+        <div class="a sw" id="pc-teal"><i style="background:var(--teal)"></i><span>#1FA39A</span></div>
+        <div class="a sw" id="pc-sand"><i style="background:var(--sand);box-shadow:inset 0 0 0 1px #DDD3C1"></i><span>#EFE6D6</span></div>
+        <div class="a aa-serif" id="pc-serif">Aa</div>
+        <div class="a aa-sans" id="pc-sans">Aa</div>
+        <div class="a quarter" id="pc-quarter"></div>
+        <div class="a square" id="pc-square"></div>
+        <div class="a gridi" id="pc-grid"></div>
+        <div class="a chip" id="pc-pos"><span class="v">Planning for B2B teams</span></div>
+        <div class="a chip" id="pc-one"><span class="v">Plan less. Ship more.</span></div>
+        <div class="a chip" id="pc-voice"><span class="v">Plain, warm, confident</span></div>
+        <div class="a chip" id="pc-proof"><span class="v">3× faster to first draft</span></div>
+        <div class="a chip" id="pc-aud"><span class="v">Ops leads, 50–500 staff</span></div>
+      </div>
+
+      <!-- Dots travel from the engine into the prompt -->
+      <div class="be-layer" id="dots"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initBrandEngine } from './brand-engine';
+
+  // Wait for webfonts: the timeline measures element sizes once, up front.
+  const root = document.getElementById('be');
+  if (root) document.fonts.ready.then(() => initBrandEngine(root));
+</script>

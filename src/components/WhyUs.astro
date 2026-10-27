@@ -1,0 +1,18 @@
+<section class="mk-section" id="why-us" aria-labelledby="why-title">
+  <div class="mk-wrap why">
+    <h2 class="mk-h2" id="why-title">Why us</h2>
+    <div class="body">
+      <p class="big">We lead design and marketing at one of the UK’s leading AI startups.</p>
+      <p class="mk-lead">We had this problem ourselves, and we fixed it. Now we’re building something to help everyone.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .why{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:64px;align-items:start}
+  .big{font:500 clamp(24px,2.4vw,34px)/1.25 var(--mk-font);letter-spacing:-.02em;color:var(--mk-text);margin:0 0 24px;max-width:720px}
+
+  @media (max-width: 900px){
+    .why{grid-template-columns:1fr;gap:8px}
+  }
+</style>
