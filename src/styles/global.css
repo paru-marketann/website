@@ -25,7 +25,10 @@
   --mk-font:"MK Apercu","Figtree",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;background:var(--mk-bg)}
+/* No scroll-behavior:smooth here: on iPhone it also animates the scrolling the browser app does
+   itself (the Google app, as its toolbars move), and the page could get stuck short of the top.
+   The nav links scroll smoothly from the header script instead. */
+html{background:var(--mk-bg)}
 body{margin:0;background:var(--mk-bg);color:var(--mk-text);font-family:var(--mk-font);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 a{color:inherit}
 ::selection{background:var(--mk-text);color:var(--mk-bg)}
