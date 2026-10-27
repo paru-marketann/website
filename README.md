@@ -44,15 +44,15 @@ is prefixed with `.be`.
 
 ## Forms (Formspree)
 
-Both the waitlist and the contact form post to one Formspree form. Copy `.env.example` to `.env`
+Both the beta signup (the hero form) and the contact form post to one Formspree form. Copy `.env.example` to `.env`
 and set `PUBLIC_FORM_ENDPOINT` to its URL (`https://formspree.io/f/...`), then restart the dev
 server. The same variable needs setting on the host, since it's baked in at build time.
 
-Every submission includes `form: "waitlist"` or `form: "contact"`. Waitlist entries are just an
+Every submission includes `form: "beta"` or `form: "contact"`. Beta signups are just an
 email; contact entries add name, company and message. Each sets `_subject` so the notification
 emails are easy to tell apart.
 
-If the variable is unset, the waitlist just shows its thank-you message (storing nothing) and the
+If the variable is unset, the beta signup just shows its thank-you message (storing nothing) and the
 contact form opens a pre-filled email to info@marketann.ai. The contact form also has a hidden
 "website" field that catches bots: anything that fills it in is quietly dropped.
 

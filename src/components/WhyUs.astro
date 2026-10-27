@@ -1,18 +1,69 @@
-<section class="mk-section" id="why-us" aria-labelledby="why-title">
-  <div class="mk-wrap why">
-    <h2 class="mk-h2" id="why-title">Why us</h2>
-    <div class="body">
-      <p class="big">We lead design and marketing at one of the UK’s leading AI startups.</p>
-      <p class="mk-lead">We had this problem ourselves, and we fixed it. Now we’re building something to help everyone.</p>
+---
+// Why us as one statement in the display (logo) font that lights up word by word as you scroll.
+// The paragraph pins in the middle of the screen (sticky) while the taller wrapper scrolls past;
+// scroll progress through the wrapper sets how many words are lit. Once it's fully lit there's a
+// short hold, then the page carries on. "Why us" stays as a hidden heading for screen readers and
+// the nav link. With reduced motion it's simply shown fully lit, no pinning.
+const statement =
+  'We lead design and marketing at a leading UK AI startup, with 30+ years of brand experience between us. ' +
+  'We built Marketann to fix our own problem. Now it can do more for your brand than a prompt ever could.';
+const words = statement.split(' ');
+---
+
+<section class="mk-section why" id="why-us" aria-labelledby="why-title">
+  <h2 class="mk-sr" id="why-title">Why us</h2>
+  <div class="why-scroll" id="why-scroll">
+    <div class="why-sticky">
+      <div class="mk-wrap">
+        <p class="statement" aria-label={statement}>
+          {words.map((w) => <span class="w" aria-hidden="true">{w} </span>)}
+        </p>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .why{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:64px;align-items:start}
-  .big{font:500 clamp(24px,2.4vw,34px)/1.25 var(--mk-font);letter-spacing:-.02em;color:var(--mk-text);margin:0 0 24px;max-width:720px}
+  .why{padding-top:0;padding-bottom:0}
+  /* the scroll track: the paragraph stays pinned for the extra height beyond one screen */
+  .why-scroll{height:240vh}
+  .why-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center}
+  .why-sticky .mk-wrap{width:100%}
+  .statement{font:400 min(clamp(32px,4.95vw,70px),9.5vh)/1.02 var(--mk-display);  /* vh cap: must fit when pinned on short screens */
+    color:var(--mk-text);margin:0;max-width:1200px;text-wrap:pretty}
+  @media (max-width: 900px){ .statement{font-size:min(clamp(32px,5.8vw,48px),9.5vh)} }  /* grows on tablets */
+  /* each word starts dim; the script raises --lit from 0 to 1 */
+  .w{opacity:calc(.14 + .86 * var(--lit, 0))}
 
-  @media (max-width: 900px){
-    .why{grid-template-columns:1fr;gap:8px}
+  @media (prefers-reduced-motion: reduce){
+    .why-scroll{height:auto}
+    .why-sticky{position:static;height:auto;padding:128px 0}
+    .w{opacity:1}
   }
 </style>
+
+<script>
+  const track = document.getElementById('why-scroll');
+  const words = track ? [...track.querySelectorAll<HTMLElement>('.w')] : [];
+  const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+  if (track && words.length && !reduced) {
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const vh = window.innerHeight;
+      const r = track.getBoundingClientRect();
+      // start just before the paragraph pins; finish with a quarter screen
+      // of pinned scroll to spare, so it holds fully lit for a moment before moving on
+      const start = vh * 0.25;
+      const end = -(r.height - vh) + vh * 0.25;
+      const p = Math.min(1, Math.max(0, (start - r.top) / (start - end)));
+      const lit = p * words.length;
+      words.forEach((w, i) => w.style.setProperty('--lit', String(Math.min(1, Math.max(0, lit - i)))));
+    };
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+  }
+</script>

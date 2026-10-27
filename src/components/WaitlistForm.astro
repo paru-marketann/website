@@ -7,14 +7,14 @@
 <form class="mk-form" id="mk-form" novalidate data-endpoint={import.meta.env.PUBLIC_FORM_ENDPOINT ?? ''}>
   <label for="mk-email" class="mk-sr">Work email</label>
   <input id="mk-email" name="email" type="email" autocomplete="email" placeholder="Work email" required />
-  <button class="mk-btn" type="submit">Join the waitlist</button>
+  <button class="mk-btn" type="submit">Join the beta</button>
 </form>
 <p class="mk-note" id="mk-note" aria-live="polite">Early access for a small group of teams.</p>
 
 <style>
-  .mk-form{display:flex;align-items:center;gap:8px;max-width:500px;background:var(--mk-field);border:1px solid var(--mk-line);border-radius:999px;padding:6px;transition:border-color .2s;isolation:isolate}  /* isolate: keeps the button glow above the fill */
+  .mk-form{display:flex;align-items:center;gap:8px;max-width:500px;background:var(--mk-field);border:1px solid var(--mk-line);border-radius:999px;padding:6px;transition:border-color .2s}
   .mk-form:focus-within{border-color:#55555C}
-  input{flex:1;min-width:0;height:52px;background:transparent;border:0;outline:0;
+  input{flex:1;min-width:0;height:52px;background:transparent;border:0;outline:0;border-radius:999px;  /* round, so an autofill fill matches the pill */
     font:400 17px var(--mk-font);color:var(--mk-text);padding:0 12px 0 14px}
   input::placeholder{color:var(--mk-muted)}
   button{flex:none}
@@ -35,10 +35,19 @@
   const note = document.getElementById('mk-note') as HTMLParagraphElement;
   const endpoint = form.dataset.endpoint;
 
+  const defaultNote = note.textContent ?? '';
   const show = (state: 'ok' | 'err', text: string) => {
     note.className = `mk-note ${state}`;
     note.textContent = text;
   };
+
+  // clear an error as soon as the email is edited
+  input.addEventListener('input', () => {
+    if (note.classList.contains('err')) {
+      note.className = 'mk-note';
+      note.textContent = defaultNote;
+    }
+  });
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -48,14 +57,14 @@
       input.focus();
       return;
     }
-    const done = () => { show('ok', 'Thanks, you’re on the list.'); form.reset(); };
+    const done = () => { show('ok', 'We’ll be in touch.'); form.reset(); };
     if (!endpoint) { done(); return; }
     try {
       const r = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         // _subject sets the notification email's subject line in Formspree
-        body: JSON.stringify({ form: 'waitlist', email, _subject: 'New Marketann waitlist signup' }),
+        body: JSON.stringify({ form: 'beta', email, _subject: 'New Marketann beta signup' }),
       });
       if (!r.ok) throw new Error(String(r.status));
       done();

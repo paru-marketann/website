@@ -90,5 +90,12 @@ const benefits = [
     .create{margin-top:96px}
     .create{grid-template-columns:1fr;gap:40px}
     .benefits{padding-top:0;gap:24px}
+    .create h3{font-size:clamp(36px,5.4vw,48px)}  /* matches .mk-h2 at this size */
+  }
+  /* tablets: step cards lie sideways (animation left, text right) rather than stacking huge */
+  @media (min-width: 601px) and (max-width: 900px){
+    .steps{gap:16px}
+    .step{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:center}
+    .step-text{padding:20px 28px}
   }
 </style>

@@ -13,6 +13,9 @@
 .be{position:relative;width:100%;max-width:640px;aspect-ratio:4/5;overflow:hidden;background:transparent;font-family:var(--ui);-webkit-font-smoothing:antialiased}
 .be *{box-sizing:border-box}
 .be-stage{position:absolute;left:0;top:0;width:720px;height:900px;transform-origin:0 0}
+/* phones: the middle 600 x 900 of the stage (see brand-engine.ts), with a larger prompt */
+.be.be-compact{aspect-ratio:2/3}
+.be-compact .ptext{font-size:34px}
 .be-all,.be-group,.be-layer{position:absolute;left:0;top:0;width:720px;height:900px}
 .be-group{transform-origin:360px 450px}
 .be .a{position:absolute;left:0;top:0;will-change:transform,opacity}
@@ -38,10 +41,6 @@
 .be .engine{width:680px;height:322px;background:#111113;border-radius:24px;corner-shape:squircle;overflow:hidden;box-shadow:0 0 0 1px #2A2A2F,0 40px 80px -40px rgba(0,0,0,.7)}
 .be .zone{position:absolute;top:18px;width:314px;height:286px;background:#18181B;border-radius:12px;corner-shape:squircle}
 .be .zone b{position:absolute;left:12px;top:10px;font:500 10px var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--mk-muted)}
-/* gradient outline: gradient background with the middle masked out */
-.be .ring{width:686px;height:328px;border-radius:27px;corner-shape:squircle;padding:2px;background:var(--mk-grad);
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
-  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
 
 /* Prompt: same look as the waitlist field on the site */
 .be .prompt{width:644px;height:80px;background:var(--mk-field);border:1px solid var(--mk-line);border-radius:999px;display:flex;align-items:center;padding:0 9px 0 22px;gap:14px}
@@ -194,6 +193,9 @@
 .be .gridi{--ink:#EDEBE6}
 .be #pc-ink i{box-shadow:0 0 0 1px #3A3D58}
 .be .sw span{color:#76767F}
-.be .deck,.be .motion,.be .r-cover,.be .sq3,.be .c-front{box-shadow:0 0 0 1px rgba(255,255,255,.09)}
-.be .site,.be .ad,.be .r-page,.be .l-sheet{box-shadow:none}
-.be .so-head b{color:#EDEBE6}
+/* outputs pile up on each other, so every piece casts a soft shadow onto the one below */
+.be .site,.be .deck,.be .ad,.be .tee,.be .motion,.be .r-cover,.be .r-page,.be .l-sheet,.be .c-back,.be .c-front,.be .social::before{
+  box-shadow:0 28px 50px -18px rgba(0,0,0,.75),0 10px 20px -10px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.06)}
+/* social posts sit on a white feed card (drawn behind them, so their positions are unchanged) */
+.be .social{isolation:isolate}
+.be .social::before{content:"";position:absolute;inset:-18px -18px -18px -18px;z-index:-1;background:#FFFFFF;border-radius:18px}

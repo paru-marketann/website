@@ -24,6 +24,10 @@ const EASE: Record<Ease, (p: number) => number> = {
 
 // ---------- Layout constants (stage is 720 x 900)
 const STAGE_W = 720;
+// Phones (narrow containers) get a compact version: only the middle 600px of the stage is shown,
+// so everything renders ~25% bigger, and the widest outputs are scaled to fit that crop.
+const COMPACT_W = 600;
+const COMPACT_BELOW = 520;   // container width in px
 // The platform panel (engine + docked prompt), in engine-group coordinates. The group scales
 // around (360, 450). The panel is 680 wide with its top edge fixed at y 275: it starts 322 tall
 // (just the Look/Message zones) and grows to 418 once the pieces are in, revealing the prompt.
@@ -57,7 +61,9 @@ const OUTPUTS: [string, string, number][] = [
   ['o-social', 'Social posts', 1],
   ['o-motion', 'Company explainer', 1],
 ];
-const START = 8.4, HOLD = 1.5;
+const START = 5.9, HOLD = .5;   // first prompt starts typing; pause on each finished output
+// Where each finished output settles in the pile: [rotation deg, x offset, y offset] (stage px)
+const PILE: [number, number, number][] = [[-5, -26, 12], [4, 28, 16], [-3, -18, 8], [6, 22, 14], [-6, -28, 10], [3, 18, 16], [-4, -22, 12]];
 
 export function initBrandEngine(root: HTMLElement): void {
   const $ = (id: string) => root.querySelector<HTMLElement>('#' + id)!;
@@ -76,30 +82,32 @@ export function initBrandEngine(root: HTMLElement): void {
     byEl.get(el)!.tracks.push({ to, start, dur: Math.max(dur, .001), ease });
   }
 
+  const isCompact = root.clientWidth < COMPACT_BELOW;
+  root.classList.toggle('be-compact', isCompact);
+
   // ---------- Brand pieces float in, then fly into the engine
+  // (on phones the scatter is pulled towards the centre so it sits inside the narrower crop)
+  const scatterX = (x: number) => (isCompact ? 360 + (x - 360) * .72 : x);
   P.forEach((d, i) => {
-    const el = add($(d[0]), { x: d[1], y: d[2], r: d[3], s: .6, o: 0, f: 1 });
+    const el = add($(d[0]), { x: scatterX(d[1]), y: d[2], r: d[3], s: .6, o: 0, f: 1 });
     tw(el, { o: 1, s: 1 }, .1 + i * .06, .6, 'back');
   });
   FLY_ORDER.forEach((idx, k) => {
     const d = P[idx];
-    tw($(d[0]), { x: d[4], y: d[5], s: d[6], r: 0, f: 0 }, 3.7 + k * .07, .9, 'io');
+    tw($(d[0]), { x: d[4], y: d[5], s: d[6], r: 0, f: 0 }, 2.5 + k * .07, .9, 'io');
   });
 
   // ---------- Engine
   const group = add($('be-group'), {}, 'group');
   // abs items are centred on y, so the panel's centre moves with its height to keep the top edge put
   const engine = add($('engine'), { x: 360, y: PANEL.top + PANEL.short / 2, h: PANEL.short, s: .94, o: 0 });
-  tw(engine, { o: 1, s: 1 }, 3.3, .6, 'out');
-  const ring = add($('ring'), { x: 360, y: PANEL.top + PANEL.short / 2, o: 0 });
-  tw(ring, { o: .8 }, 5.85, .15, 'lin');
-  tw(ring, { o: 0, s: 1.08 }, 6.0, .7, 'out');
-  tw(group, { dy: ENG.cy - 450, s: ENG.s }, 6.6, .9, 'io');
+  tw(engine, { o: 1, s: 1 }, 2.1, .6, 'out');
+  tw(group, { dy: ENG.cy - 450, s: ENG.s }, 4.3, .9, 'io');
 
   // ---------- Prompt: once the pieces are in and the panel is up top, the panel grows and the prompt slides in
-  tw(engine, { h: PANEL.tall, y: PANEL.top + PANEL.tall / 2 }, 7.35, .55, 'io');
+  tw(engine, { h: PANEL.tall, y: PANEL.top + PANEL.tall / 2 }, 5.0, .55, 'io');
   const prompt = add($('prompt'), { x: 360, y: PANEL.promptY + 14, s: .97, o: 0 });
-  tw(prompt, { o: 1, y: PANEL.promptY, s: 1 }, 7.6, .5, 'out');
+  tw(prompt, { o: 1, y: PANEL.promptY, s: 1 }, 5.25, .5, 'out');
   const pglow = add($('pglow'), { x: 360, y: PANEL.promptY, o: 0 });
   const send = add($('send'), {}, 'rel');
   const ptext = $('ptext');
@@ -110,8 +118,8 @@ export function initBrandEngine(root: HTMLElement): void {
   const dotsHost = $('dots');
   let base = START, prevStr: string | null = null, lastBuilt = 0, stillT = 0;
 
-  OUTPUTS.forEach(([id, str, sc], i) => {
-    const typeDur = Math.max(.7, str.length * .065);
+  OUTPUTS.forEach(([id, str, sc0], i) => {
+    const typeDur = Math.max(.6, str.length * .055);
     if (prevStr) typing.push({ start: base - .55, dur: .4, str: prevStr, del: true });
     typing.push({ start: base, dur: typeDur, str });
     prevStr = str;
@@ -119,8 +127,9 @@ export function initBrandEngine(root: HTMLElement): void {
     tw(send, { s: .84 }, go, .1, 'out'); tw(send, { s: 1 }, go + .1, .25, 'out');
 
     // output grows out from behind the prompt
-    const el = $(id), emerge = go + .75;
+    const el = $(id), emerge = go + .55;
     const w = el.offsetWidth, h = el.offsetHeight;
+    const sc = isCompact ? Math.min(sc0, (COMPACT_W - 48) / w) : sc0;   // keep wide outputs inside the phone crop
     const cy = OUT_Y + (h > 450 ? 5 : 0);
     add(el, { x: 360, y: PROMPT.y, s: .2 * sc, o: 0 });
     tw(el, { o: 1 }, emerge, .25, 'lin');
@@ -128,7 +137,7 @@ export function initBrandEngine(root: HTMLElement): void {
 
     const parts = el.querySelectorAll<HTMLElement>('.p');
     parts.forEach((p, k) => {
-      const ps = emerge + .3 + k * .2;
+      const ps = emerge + .3 + k * .15;
       add(p, { o: 0, y: 10 }, 'rel');
       tw(p, { o: 1, y: 0 }, ps, .45, 'out');
       // where this part ends up on stage
@@ -149,13 +158,17 @@ export function initBrandEngine(root: HTMLElement): void {
       }
     });
 
-    const built = emerge + .3 + (parts.length - 1) * .2 + .45;
+    const built = emerge + .3 + (parts.length - 1) * .15 + .45;
     tw(pglow, { o: 1 }, go, .2, 'out'); tw(pglow, { o: 0 }, built - .3, .5, 'io');
     if (i === 0) stillT = built + .3;
 
     const hold = built + HOLD;
-    if (i < OUTPUTS.length - 1) tw(el, { o: 0, y: cy + 24, s: sc * .97 }, hold, .4, 'io');
-    base = hold + .6;
+    // rather than leaving, it tilts and settles into the pile; the next output lands on top of it
+    if (i < OUTPUTS.length - 1) {
+      const [r, dx, dy] = PILE[i % PILE.length];
+      tw(el, { r, x: 360 + dx, y: cy + dy, s: sc * .9 }, hold, .7, 'io');
+    }
+    base = hold + .35;
     lastBuilt = built;
   });
   const TOTAL = lastBuilt + 3.0;
@@ -203,7 +216,13 @@ export function initBrandEngine(root: HTMLElement): void {
   }
 
   // ---------- Scale to container
-  const fit = () => { stage.style.transform = `scale(${root.clientWidth / STAGE_W})`; };
+  const fit = () => {
+    const compact = root.clientWidth < COMPACT_BELOW;
+    root.classList.toggle('be-compact', compact);
+    const viewW = compact ? COMPACT_W : STAGE_W;
+    const shift = compact ? -(STAGE_W - COMPACT_W) / 2 : 0;   // centre the crop
+    stage.style.transform = `scale(${root.clientWidth / viewW}) translateX(${shift}px)`;
+  };
   fit();
   if (window.ResizeObserver) new ResizeObserver(fit).observe(root); else window.addEventListener('resize', fit);
 

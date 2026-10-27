@@ -39,18 +39,25 @@ a{color:inherit}
 @media (max-width: 900px){
   .mk-wrap{padding-left:16px;padding-right:16px}
 }
+/* tablets: a little more side room than phones */
+@media (min-width: 601px) and (max-width: 900px){
+  .mk-wrap{padding-left:32px;padding-right:32px}
+}
 
 /* Logo link (header + footer); each sets its own svg height */
 .mk-logo{display:block;color:var(--mk-text);line-height:0}
 .mk-logo svg{width:auto;display:block}
 
-/* Primary button: cream, fully round, with a gold glow behind it on hover. The glow sits at z-index -1,
-   so put the button inside something with `isolation:isolate` (both forms are). */
-.mk-btn{position:relative;height:52px;border:0;cursor:pointer;background:var(--mk-text);color:var(--mk-bg);font:700 15px var(--mk-font);text-transform:uppercase;letter-spacing:.04em;padding:0 24px;border-radius:999px;transition:background .2s,transform .15s}
-.mk-btn::before{content:"";position:absolute;inset:4px;z-index:-1;border-radius:inherit;background:var(--mk-grad);filter:blur(16px);opacity:0;transition:opacity .25s}
-.mk-btn:hover{background:#fff}
-.mk-btn:hover::before,.mk-btn:focus-visible::before{opacity:.85}
-.mk-btn:active{transform:scale(.98)}
+/* Browser autofill: keep our dark field and light text instead of the browser's pale blue box
+   (the inset shadow paints over the autofill background; the long transition stops it flashing back) */
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, textarea:-webkit-autofill{
+  -webkit-text-fill-color:var(--mk-text);caret-color:var(--mk-text);
+  -webkit-box-shadow:0 0 0 1000px var(--mk-field) inset;box-shadow:0 0 0 1000px var(--mk-field) inset;
+  transition:background-color 100000s ease-out 0s}
+
+/* Primary button: cream and fully round */
+.mk-btn{position:relative;height:52px;border:0;cursor:pointer;background:var(--mk-text);color:var(--mk-bg);font:700 15px var(--mk-font);text-transform:uppercase;letter-spacing:.04em;padding:0 24px;border-radius:999px;transition:background .2s}
+.mk-btn:hover{background:#fff}  /* hover: just a touch brighter; no glow, no press effect */
 .mk-btn:disabled{opacity:.6;cursor:default}
 
 /* Sections below the hero */
@@ -66,4 +73,5 @@ a{color:inherit}
 
 @media (max-width: 900px){
   .mk-section{padding-top:88px;padding-bottom:88px}
+  .mk-h2{font-size:clamp(36px,5.4vw,48px)}  /* grows on tablets instead of sitting at the phone size */
 }
