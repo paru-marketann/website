@@ -25,9 +25,9 @@ const EASE: Record<Ease, (p: number) => number> = {
 // ---------- Layout constants (stage is 720 x 900)
 const STAGE_W = 720;
 // The platform panel (engine + docked prompt), in engine-group coordinates. The group scales
-// around (360, 450). The panel is 680 wide with its top edge fixed at y 275: it starts 366 tall
-// (just the Look/Message zones) and grows to 462 once the pieces are in, revealing the prompt.
-const PANEL = { top: 275, short: 366, tall: 462, promptY: 679 };
+// around (360, 450). The panel is 680 wide with its top edge fixed at y 275: it starts 322 tall
+// (just the Look/Message zones) and grows to 418 once the pieces are in, revealing the prompt.
+const PANEL = { top: 275, short: 322, tall: 418, promptY: 635 };
 const ENG = { cx: 360, cy: 162, s: .8 };         // engine group after it moves to the top
 const engPos = (x: number, y: number): [number, number] => [ENG.cx + (x - 360) * ENG.s, ENG.cy + (y - 450) * ENG.s];
 const PROMPT = { x: 360, y: engPos(360, PANEL.promptY)[1] };  // the prompt on stage, once docked at the top
@@ -38,11 +38,11 @@ type Piece = [string, number, number, number, number, number, number, string];
 const P: Piece[] = [
   // Look zone (x 38–352): 3 x 3 grid on columns 93 / 195 / 297. Message zone (x 368–682): chips
   // stacked on x 525, scaled so they span the zone with a 14px inset (348 * .82 ≈ 286).
-  ['pc-ink', 110, 120, -6, 93, 414, .85, 'var(--dot-ink)'], ['pc-coral', 600, 110, 8, 195, 414, .85, 'var(--coral)'], ['pc-teal', 590, 790, -4, 297, 414, .85, 'var(--teal)'],
-  ['pc-sand', 120, 800, 5, 93, 492, .85, '#D9C9AC'], ['pc-serif', 330, 90, -8, 195, 494, .7, 'var(--dot-ink)'], ['pc-sans', 630, 440, 6, 297, 494, .85, 'var(--dot-ink)'],
-  ['pc-quarter', 90, 480, -12, 93, 570, .85, 'var(--coral)'], ['pc-square', 470, 190, 14, 195, 570, 1, 'var(--teal)'], ['pc-grid', 360, 830, -6, 297, 570, .85, 'var(--dot-ink)'],
-  ['pc-pos', 190, 250, -4, 525, 397, .82, 'var(--coral)'], ['pc-one', 520, 330, 5, 525, 445, .82, 'var(--coral)'], ['pc-voice', 200, 690, 3, 525, 493, .82, 'var(--teal)'],
-  ['pc-proof', 520, 610, -3, 525, 541, .82, 'var(--coral)'], ['pc-aud', 380, 460, 2, 525, 589, .82, 'var(--dot-ink)'],
+  ['pc-ink', 110, 120, -6, 93, 370, .85, 'var(--dot-ink)'], ['pc-coral', 600, 110, 8, 195, 370, .85, 'var(--coral)'], ['pc-teal', 590, 790, -4, 297, 370, .85, 'var(--teal)'],
+  ['pc-sand', 120, 800, 5, 93, 448, .85, '#D9C9AC'], ['pc-serif', 330, 90, -8, 195, 450, .7, 'var(--dot-ink)'], ['pc-sans', 630, 440, 6, 297, 450, .85, 'var(--dot-ink)'],
+  ['pc-quarter', 90, 480, -12, 93, 526, .85, 'var(--coral)'], ['pc-square', 470, 190, 14, 195, 526, 1, 'var(--teal)'], ['pc-grid', 360, 830, -6, 297, 526, .85, 'var(--dot-ink)'],
+  ['pc-pos', 190, 250, -4, 525, 353, .82, 'var(--coral)'], ['pc-one', 520, 330, 5, 525, 401, .82, 'var(--coral)'], ['pc-voice', 200, 690, 3, 525, 449, .82, 'var(--teal)'],
+  ['pc-proof', 520, 610, -3, 525, 497, .82, 'var(--coral)'], ['pc-aud', 380, 460, 2, 525, 545, .82, 'var(--dot-ink)'],
 ];
 const FLY_ORDER = [0, 9, 1, 4, 10, 2, 6, 11, 3, 5, 12, 7, 13, 8];
 

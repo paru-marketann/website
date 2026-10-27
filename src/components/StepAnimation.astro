@@ -1,6 +1,6 @@
 ---
 // Short looping animations for the three How it works steps, in the style of the hero animation
-// (dark platform UI, Fieldwork's example brand, gold accents). Pure CSS: everything is sized in
+// (dark platform UI, YourBrand's example brand, gold accents). Pure CSS: everything is sized in
 // container units (cqw) so it scales with the card. The base styles are the settled frame, which is
 // what people who prefer reduced motion see. Animations pause while off screen.
 interface Props {
@@ -14,19 +14,18 @@ const { kind } = Astro.props;
     <>
       <div class="b-ring" />
       <div class="b-panel">
-        <div class="b-head"><i /><span /></div>
         <div class="b-zone b-l" />
         <div class="b-zone b-r" />
       </div>
-      <i class="pc sw" style="--x:26;--y:28;--sx:-16cqw;--sy:-15cqw;--r:-8deg;--i:0;--c:var(--ink)" />
-      <i class="pc sw" style="--x:35.5;--y:28;--sx:0cqw;--sy:-18cqw;--r:6deg;--i:1;--c:var(--coral)" />
-      <i class="pc sw" style="--x:45;--y:28;--sx:16cqw;--sy:-16cqw;--r:-5deg;--i:2;--c:var(--teal)" />
-      <i class="pc sw" style="--x:26;--y:41;--sx:-16cqw;--sy:9cqw;--r:7deg;--i:3;--c:var(--sand)" />
-      <i class="pc aa" style="--x:35.5;--y:41;--sx:3cqw;--sy:13cqw;--r:-10deg;--i:4">Aa</i>
-      <i class="pc qt" style="--x:45;--y:41;--sx:-7cqw;--sy:13cqw;--r:12deg;--i:5" />
-      <i class="pc chip" style="--x:66.5;--y:26;--sx:8cqw;--sy:-15cqw;--r:5deg;--i:6" />
-      <i class="pc chip" style="--x:66.5;--y:34;--sx:9cqw;--sy:3cqw;--r:-4deg;--i:7" />
-      <i class="pc chip" style="--x:66.5;--y:42;--sx:6cqw;--sy:12cqw;--r:3deg;--i:8" />
+      <i class="pc sw" style="--x:26;--y:24.5;--sx:-16cqw;--sy:-15cqw;--r:-8deg;--i:0;--c:var(--ink)" />
+      <i class="pc sw" style="--x:35.5;--y:24.5;--sx:0cqw;--sy:-18cqw;--r:6deg;--i:1;--c:var(--coral)" />
+      <i class="pc sw" style="--x:45;--y:24.5;--sx:16cqw;--sy:-16cqw;--r:-5deg;--i:2;--c:var(--teal)" />
+      <i class="pc sw" style="--x:26;--y:37.5;--sx:-16cqw;--sy:9cqw;--r:7deg;--i:3;--c:var(--sand)" />
+      <i class="pc aa" style="--x:35.5;--y:37.5;--sx:3cqw;--sy:13cqw;--r:-10deg;--i:4">Aa</i>
+      <i class="pc qt" style="--x:45;--y:37.5;--sx:-7cqw;--sy:13cqw;--r:12deg;--i:5" />
+      <i class="pc chip" style="--x:66.5;--y:22.5;--sx:8cqw;--sy:-15cqw;--r:5deg;--i:6" />
+      <i class="pc chip" style="--x:66.5;--y:30.5;--sx:9cqw;--sy:3cqw;--r:-4deg;--i:7" />
+      <i class="pc chip" style="--x:66.5;--y:38.5;--sx:6cqw;--sy:12cqw;--r:3deg;--i:8" />
     </>
   )}
 
@@ -104,14 +103,11 @@ const { kind } = Astro.props;
 
   /* ---------- 1. Build: brand pieces fly into the engine (4s) ---------- */
   .sa-build{--dur:4s}
-  .b-panel{left:15cqw;top:9cqw;width:70cqw;height:44cqw;background:#18181B;border-radius:3cqw;corner-shape:squircle;box-shadow:0 0 0 1px #2A2A2F;
+  .b-panel{left:15cqw;top:12.5cqw;width:70cqw;height:37cqw;background:#18181B;border-radius:3cqw;corner-shape:squircle;box-shadow:0 0 0 1px #2A2A2F;
     animation:b-panel var(--dur) ease-out}
-  .b-head{left:0;right:0;top:0;height:7cqw;box-shadow:inset 0 -1px 0 #2A2A2F}
-  .b-head i{left:3cqw;top:2.6cqw;width:1.8cqw;height:1.8cqw;border-radius:50%;background:var(--gold-ring)}
-  .b-head span{position:absolute;left:6.5cqw;top:3cqw;width:14cqw;height:1.2cqw;border-radius:1cqw;background:#6E6E76}
-  .b-zone{top:10cqw;height:31cqw;width:31cqw;background:#111113;border-radius:2cqw;corner-shape:squircle}
+  .b-zone{top:3cqw;height:31cqw;width:31cqw;background:#111113;border-radius:2cqw;corner-shape:squircle}
   .b-l{left:3cqw} .b-r{left:36cqw}
-  .b-ring{left:14cqw;top:8cqw;width:72cqw;height:46cqw;border-radius:3.6cqw;corner-shape:squircle;padding:.5cqw;background:var(--gold-ring);
+  .b-ring{left:14cqw;top:11.5cqw;width:72cqw;height:39cqw;border-radius:3.6cqw;corner-shape:squircle;padding:.5cqw;background:var(--gold-ring);
     -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
     mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
     opacity:0;animation:b-ring var(--dur) ease-out}
@@ -157,11 +153,11 @@ const { kind } = Astro.props;
   .c-ln{left:5cqw;height:1.6cqw;border-radius:1cqw;background:rgba(250,246,238,.75)}
   .c-sq{right:4.5cqw;bottom:4.5cqw;width:5.5cqw;height:5.5cqw;background:var(--teal)}
 
-  /* mini Fieldwork website */
+  /* mini YourBrand website */
   .c-site{background:#FFFFFF;opacity:0;animation:c-out-site var(--dur) cubic-bezier(.2,.8,.2,1)}
   .c-site > *{animation:c-part-site var(--dur) ease-out;animation-delay:calc(var(--i) * 90ms)}
-  .c-chrome{left:0;right:0;top:0;height:3.6cqw;background:#F3F2EE}
-  .c-chrome i{position:relative;display:inline-block;width:1.1cqw;height:1.1cqw;margin:1.25cqw 0 0 1.2cqw;border-radius:50%;background:#D6D4CE}
+  .sa .c-chrome{left:0;right:0;top:0;height:3.6cqw;background:#F3F2EE;display:flex;align-items:center;gap:.8cqw;padding-left:1.4cqw}  /* dots centred in the bar */
+  .sa .c-chrome i{position:static;width:1.1cqw;height:1.1cqw;border-radius:50%;background:#D6D4CE}
   .c-logo{left:6.3cqw;top:6.2cqw;width:9cqw;height:2.2cqw;border-radius:.6cqw;background:var(--ink)}
   .c-logo::before{content:"";position:absolute;left:-2.8cqw;top:-.2cqw;width:2.4cqw;height:2.4cqw;background:var(--coral);border-top-left-radius:100%}
   .c-nav{left:33cqw;top:6.8cqw;width:14cqw;height:1.1cqw;border-radius:1cqw;background:repeating-linear-gradient(90deg,#9A9AA6 0 3.4cqw,transparent 3.4cqw 5cqw)}

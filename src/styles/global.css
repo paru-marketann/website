@@ -8,14 +8,20 @@
 @font-face{font-family:"MK Apercu";font-weight:700;font-display:swap;
   src:local("Apercu Bold"),local("Apercu-Bold"),local("Apercu Pro Bold"),url("/fonts/apercu-bold.woff2") format("woff2")}
 
+/* Headings: Holiday Journey (Calamar Studio), the typeface behind the Marketann logo. Single weight.
+   To go back to Apercu headings, point --mk-display at var(--mk-font). Check the font's web licence before launch. */
+@font-face{font-family:"Holiday Journey";font-weight:400;font-display:swap;
+  src:url("/fonts/holiday-journey-regular.otf") format("opentype")}
+
 :root{
   --mk-bg:#0B0B0C; --mk-text:#EDEBE6; --mk-body:#A4A3A8; --mk-muted:#6E6E76; --mk-line:#232327; --mk-field:#141416;
   /* Brand accent: yellow through gold to a touch of orange */
   --mk-yellow:#FFE680; --mk-gold:#F6C443; --mk-amber:#F09C3C;
   --mk-grad:linear-gradient(90deg,var(--mk-yellow),var(--mk-gold) 50%,var(--mk-amber));
-  /* Fieldwork, the example brand shown in the animations (not Marketann's own type) */
+  /* YourBrand, the example brand shown in the animations (not Marketann's own type) */
   --fw-display:"Tilt Warp",ui-sans-serif,system-ui,sans-serif;
   --fw-text:"Besley",Georgia,"Times New Roman",serif;
+  --mk-display:"Holiday Journey","MK Apercu","Figtree",ui-sans-serif,system-ui,sans-serif;
   --mk-font:"MK Apercu","Figtree",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
 }
 *{box-sizing:border-box}
@@ -48,13 +54,14 @@ a{color:inherit}
 .mk-btn:disabled{opacity:.6;cursor:default}
 
 /* Sections below the hero */
-.mk-section{padding-top:128px;padding-bottom:128px;border-top:1px solid var(--mk-line);scroll-margin-top:24px}
+/* position + background: later sections paint over anything that spills out of earlier ones (the examples strip) */
+.mk-section{position:relative;background:var(--mk-bg);padding-top:128px;padding-bottom:128px;border-top:1px solid var(--mk-line);scroll-margin-top:24px}
 /* Light ("negative") section: re-points the colour tokens, so anything inside that uses them flips */
 .mk-section--light{background:#FFFFFF;border-top:0;
   --mk-text:#0B0B0C; --mk-body:#4A4A50; --mk-muted:#77777E; --mk-line:#E4E2DC; --mk-field:#F5F4F0;
   color:var(--mk-text)}
 .mk-section--light ::selection{background:#0B0B0C;color:#FFFFFF}
-.mk-h2{font:600 clamp(32px,3.4vw,48px)/1.08 var(--mk-font);letter-spacing:-.03em;margin:0 0 20px;color:var(--mk-text)}
+.mk-h2{font:400 clamp(36px,3.8vw,54px)/.96 var(--mk-display);letter-spacing:0;margin:0 0 20px;color:var(--mk-text)}
 .mk-lead{font:400 clamp(17px,1.4vw,20px)/1.5 var(--mk-font);color:var(--mk-body);margin:0;max-width:620px}
 
 @media (max-width: 900px){

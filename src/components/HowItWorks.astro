@@ -1,5 +1,6 @@
 ---
 import StepAnimation from './StepAnimation.astro';
+import CreateMarquee from './CreateMarquee.astro';
 
 const steps = [
   {
@@ -19,22 +20,14 @@ const steps = [
   },
 ] as const;
 
-const outputs = [
-  'Websites and landing pages',
-  'Pitch decks',
-  'Social posts',
-  'Paid social ads',
-  'Email campaigns',
-  'Annual reports',
-  'One-pagers and sales sheets',
-  'Business cards and letterheads',
-  'Event signage',
-  'Merch',
-  'Explainer videos',
+const benefits = [
+  { title: 'Faster', body: 'Brief it in the morning, ship it the same day. No weeks of back-and-forth.' },
+  { title: 'Cheaper', body: 'Stop paying agency retainers and freelance fees for everyday collateral.' },
+  { title: 'Consistently high quality', body: 'It knows your rules and what you want, so every piece comes out better than a rushed freelance job.' },
 ];
 ---
 
-<section class="mk-section mk-section--light" id="how-it-works" aria-labelledby="how-title">
+<section class="mk-section mk-section--light how" id="how-it-works" aria-labelledby="how-title">
   <div class="mk-wrap">
     <h2 class="mk-h2 how-h2" id="how-title"><span class="how-label">No more slop</span> Make it slap</h2>
     <p class="mk-lead">Most AI tools know nothing about your brand, so everything they make looks like everyone else’s. Marketann starts from your brand rules and builds everything from there.</p>
@@ -52,12 +45,22 @@ const outputs = [
     </ol>
 
     <div class="create">
-      <h3>What you can create</h3>
-      <ul>
-        {outputs.map((o) => <li>{o}</li>)}
+      <div class="create-copy">
+        <h3>Create anything</h3>
+        <p class="mk-lead">From a landing page to an event banner, build whatever you need, to your brand rules. You stay in the director’s chair, shaping the idea and making the calls, while the production takes care of itself.</p>
+        <p class="mk-lead">That puts your brand and marketing teams in charge, in-house. No waiting on an agency for collateral, and no calling in an outside developer to update the website.</p>
+      </div>
+      <ul class="benefits">
+        {benefits.map((b) => (
+          <li>
+            <svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12.5l4.5 4.5 10.5-11" fill="none" stroke="#16A34A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            <div><b>{b.title}</b><span>{b.body}</span></div>
+          </li>
+        ))}
       </ul>
     </div>
   </div>
+  <CreateMarquee />
 </section>
 
 <style>
@@ -70,13 +73,22 @@ const outputs = [
   .step h3{font:600 22px/1.2 var(--mk-font);letter-spacing:-.015em;margin:0 0 12px;color:var(--mk-text)}
   .step p{font:400 16px/1.55 var(--mk-font);color:var(--mk-body);margin:0}
 
-  .create{margin-top:80px}
-  .create h3{font:600 22px/1.2 var(--mk-font);letter-spacing:-.015em;margin:0 0 24px;color:var(--mk-text)}
-  .create ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
-  .create li{font:400 16px/1 var(--mk-font);color:var(--mk-text);padding:12px 18px;border:1px solid var(--mk-line);border-radius:999px}
+  /* copy on the left, benefits as a ticked list on the right */
+  .create{margin-top:176px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:88px;align-items:start}
+  .create h3{font:400 clamp(36px,3.8vw,54px)/.96 var(--mk-display);  /* same size as the section titles (.mk-h2) */letter-spacing:0;margin:0 0 14px;color:var(--mk-text)}
+  .create-copy{display:grid;gap:20px}
+  .benefits{list-style:none;margin:0;padding:72px 0 0;display:grid;gap:30px}  /* top padding drops the ticks level with the copy, below the heading */
+  .benefits li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:14px;align-items:start}
+  .tick{width:28px;height:28px}  /* plain green tick, no badge */
+  .benefits b{display:block;font:600 18px/1.2 var(--mk-font);color:var(--mk-text);margin:3px 0 4px}
+  .benefits span{font:400 15px/1.5 var(--mk-font);color:var(--mk-body)}
+  /* the examples strip runs to the very bottom of the section and tucks under the dark section below */
+  .how{padding-bottom:0}
 
   @media (max-width: 900px){
     .steps{grid-template-columns:1fr;margin-top:40px}
-    .create{margin-top:56px}
+    .create{margin-top:96px}
+    .create{grid-template-columns:1fr;gap:40px}
+    .benefits{padding-top:0;gap:24px}
   }
 </style>

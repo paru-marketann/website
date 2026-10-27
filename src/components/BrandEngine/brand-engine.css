@@ -6,8 +6,8 @@
   --line:#E4E2DC; --muted:#8A8A93; --dot-ink:#9AA0C8;
   /* Marketann's own UI (the platform panel) uses the site font */
   --ui: var(--mk-font);
-  /* Fieldwork's (example) brand type, set in styles/global.css */
-  --sans: var(--fw-text);   /* Fieldwork's text font (a serif, despite the name) */
+  /* YourBrand's (example) brand type, set in styles/global.css */
+  --sans: var(--fw-text);   /* YourBrand's text font (a serif, despite the name) */
   --serif: var(--fw-display);
 }
 .be{position:relative;width:100%;max-width:640px;aspect-ratio:4/5;overflow:hidden;background:transparent;font-family:var(--ui);-webkit-font-smoothing:antialiased}
@@ -34,15 +34,12 @@
 .be .chip .v{display:block;font:400 16px/1.2 var(--ui);color:var(--mk-text);white-space:nowrap}
 
 /* ---------- The platform: engine + prompt as one panel, styled like the rest of the site ---------- */
-/* Panel is 680 wide in group coordinates; its height is animated from 366 to 462 to make room for the prompt (see brand-engine.ts) */
-.be .engine{width:680px;height:366px;background:#111113;border-radius:24px;corner-shape:squircle;overflow:hidden;box-shadow:0 0 0 1px #2A2A2F,0 40px 80px -40px rgba(0,0,0,.7)}
-.be .eh{height:46px;background:#18181B;color:var(--mk-text);display:flex;align-items:center;gap:10px;padding:0 18px;font:500 14px var(--ui);box-shadow:inset 0 -1px 0 #232327}
-.be .eh .dot{width:10px;height:10px;border-radius:50%;background:var(--mk-grad)}
-.be .eh .who{margin-left:auto;color:var(--mk-muted);font-weight:400;font-size:12px}
-.be .zone{position:absolute;top:62px;width:314px;height:286px;background:#18181B;border-radius:12px;corner-shape:squircle}
+/* Panel is 680 wide in group coordinates; its height is animated from 322 to 418 to make room for the prompt (see brand-engine.ts) */
+.be .engine{width:680px;height:322px;background:#111113;border-radius:24px;corner-shape:squircle;overflow:hidden;box-shadow:0 0 0 1px #2A2A2F,0 40px 80px -40px rgba(0,0,0,.7)}
+.be .zone{position:absolute;top:18px;width:314px;height:286px;background:#18181B;border-radius:12px;corner-shape:squircle}
 .be .zone b{position:absolute;left:12px;top:10px;font:500 10px var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--mk-muted)}
 /* gradient outline: gradient background with the middle masked out */
-.be .ring{width:686px;height:372px;border-radius:27px;corner-shape:squircle;padding:2px;background:var(--mk-grad);
+.be .ring{width:686px;height:328px;border-radius:27px;corner-shape:squircle;padding:2px;background:var(--mk-grad);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
   mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
 
@@ -60,7 +57,7 @@
 .be .dotf{width:13px;height:13px;border-radius:50%}
 
 /* Shared output bits */
-.be .logo{display:flex;align-items:center;gap:8px;font:700 17px var(--sans);letter-spacing:-.01em;color:var(--ink)}  /* wordmark in Fieldwork's serif (Besley) */
+.be .logo{display:flex;align-items:center;gap:8px;font:700 17px var(--sans);letter-spacing:-.01em;color:var(--ink)}  /* wordmark in YourBrand's serif (Besley) */
 .be .mark{width:18px;height:18px;background:var(--coral);border-top-left-radius:100%}
 .be .lines{display:flex;flex-direction:column;gap:7px}
 .be .lines i{display:block;height:5px;border-radius:3px;background:#E3E1DB}

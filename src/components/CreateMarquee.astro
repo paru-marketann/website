@@ -1,0 +1,216 @@
+---
+// A strip of mini YourBrand outputs scrolling right to left in an endless loop. It sits at the bottom
+// of the How it works section and its lower part tucks under the dark section below (see the
+// negative margin here and the section stacking in styles/global.css). Pure CSS: the list is
+// rendered twice and the track slides by exactly one copy, so the loop is seamless.
+const items = [
+  'website', 'deck', 'social', 'ad', 'email', 'report', 'sheet', 'card', 'banner', 'tee', 'video',
+] as const;
+const labels: Record<(typeof items)[number], string> = {
+  website: 'Website', deck: 'Pitch deck', social: 'Social post', ad: 'Paid social ad', email: 'Email',
+  report: 'Annual report', sheet: 'Sales sheet', card: 'Business card', banner: 'Event signage',
+  tee: 'Merch', video: 'Explainer video',
+};
+---
+
+<div class="mq" aria-label="Examples of what you can create">
+  <div class="mq-track">
+    {[0, 1].map((copy) => (
+      <ul class="mq-set" aria-hidden={copy === 1 ? 'true' : undefined}>
+        {items.map((k) => (
+          <li class="mq-item">
+            <span class="mq-label">{labels[k]}</span>
+            <div class:list={['ex', `ex-${k}`]}>
+              {k === 'website' && (
+                <>
+                  <i class="w-bar"><i /><i /><i /></i>
+                  <span class="fw-logo"><i />YourBrand</span>
+                  <span class="w-nav">Product · Pricing · About</span>
+                  <b class="w-h">Plan less.<br />Ship more.</b>
+                  <span class="w-sub">Planning for B2B teams.</span>
+                  <span class="w-btn">Start free</span>
+                  <i class="w-art"><i class="c" /><i class="s" /><i class="q" /></i>
+                </>
+              )}
+              {k === 'deck' && (
+                <>
+                  <i class="d-q" />
+                  <span class="d-k">Proof</span>
+                  <b class="d-big">3×</b>
+                  <span class="d-sub">faster to first draft</span>
+                  <i class="d-sq" />
+                </>
+              )}
+              {k === 'social' && (
+                <>
+                  <b class="s-h">Plan<br />less.</b>
+                  <i class="s-q" />
+                </>
+              )}
+              {k === 'ad' && (
+                <>
+                  <span class="a-head"><i />YourBrand · Promoted</span>
+                  <span class="a-cap">Your plan shouldn’t take longer than the work.</span>
+                  <i class="a-img"><i class="c" /><b>Ship<br />more.</b></i>
+                  <span class="a-cta">Learn more</span>
+                </>
+              )}
+              {k === 'email' && (
+                <>
+                  <span class="fw-logo"><i />YourBrand</span>
+                  <i class="e-hero"><b>Your Q3 plan<br />is ready</b></i>
+                  <i class="ln" style="top:178px;width:180px" /><i class="ln" style="top:192px;width:150px" />
+                  <span class="e-btn">Open plan</span>
+                </>
+              )}
+              {k === 'report' && (
+                <>
+                  <span class="fw-logo fw-light"><i />YourBrand</span>
+                  <b class="r-t">Annual<br />Report<br />2026</b>
+                  <i class="r-q" /><i class="r-s" />
+                </>
+              )}
+              {k === 'sheet' && (
+                <>
+                  <i class="h-bar" />
+                  <b class="h-t">YourBrand for ops teams</b>
+                  <span class="h-stats"><span><b>3×</b>faster</span><span><b>40+</b>teams</span><span><b>1</b>plan</span></span>
+                  <i class="ln" style="top:176px;width:160px" /><i class="ln" style="top:190px;width:170px" /><i class="ln" style="top:204px;width:120px" />
+                </>
+              )}
+              {k === 'card' && (
+                <>
+                  <i class="k-q" />
+                  <span class="fw-logo fw-light"><i />YourBrand</span>
+                  <b class="k-n">Alex Morgan</b>
+                  <span class="k-m">Head of Operations</span>
+                </>
+              )}
+              {k === 'banner' && (
+                <>
+                  <span class="fw-logo fw-light"><i />YourBrand</span>
+                  <b class="b-h">Plan less.<br />Ship more.</b>
+                  <i class="b-q" />
+                </>
+              )}
+              {k === 'tee' && (
+                <>
+                  <svg class="t-shirt" viewBox="0 0 320 330"><path d="M112 12 60 32 8 92l44 32 20-20v214h176V104l20 20 44-32-52-60-52-20c-8 22-26 34-48 34s-40-12-48-34Z" fill="#1E2240" /></svg>
+                  <span class="t-print"><i />Plan less.<br />Ship more.</span>
+                </>
+              )}
+              {k === 'video' && (
+                <>
+                  <i class="v-c" /><i class="v-q" />
+                  <b class="v-h">Plan less.<br />Ship more.</b>
+                  <span class="v-ctrl"><i class="tri" /><i class="track"><i /></i></span>
+                </>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    ))}
+  </div>
+</div>
+
+<style>
+  /* overlap: how far the examples tuck under the dark section below */
+  .mq{--tuck:24px;position:relative;overflow-x:clip;margin-top:144px;margin-bottom:calc(var(--tuck) * -1);
+    --ink:#1E2240; --coral:#F2603F; --teal:#1FA39A; --sand:#EFE6D6; --cream:#FAF6EE}
+  .mq-track{display:flex;width:max-content;animation:mq-scroll 70s linear infinite}
+  .mq-set{display:flex;align-items:flex-end;list-style:none;margin:0;padding:0}
+  .mq-item{display:flex;flex-direction:column;align-items:flex-start;gap:14px;margin-right:28px}
+  /* speech bubble: dark pill with a little tail pointing down at its example */
+  .mq-label{position:relative;font:500 13px/1 var(--mk-font);color:#FFFFFF;background:#0B0B0C;padding:8px 13px;border-radius:999px;margin-left:6px}
+  .mq-label::after{content:"";position:absolute;left:14px;bottom:-6px;width:12px;height:8px;background:inherit;
+    clip-path:polygon(0 0,100% 0,15% 100%)}
+  @keyframes mq-scroll{to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion: reduce){ .mq-track{animation:none} }
+  @media (max-width: 900px){ .mq{--tuck:18px;margin-top:72px} .mq-track{zoom:.72} }
+
+  /* ---------- the mini outputs (YourBrand's brand) ---------- */
+  .ex{position:relative;overflow:hidden;border-radius:12px;font-family:var(--fw-text);color:var(--ink);flex:none}
+  .ex *{position:absolute}
+  .ex i, .ex b{display:block;font-style:normal}
+  .ln{left:20px;height:6px;border-radius:3px;background:#E3E1DB}
+  .fw-logo{left:20px;top:18px;display:flex;align-items:center;gap:6px;font:700 13px/1 var(--fw-text);color:var(--ink)}
+  .fw-logo i{position:static;width:12px;height:12px;background:var(--coral);border-top-left-radius:100%}
+  .fw-light{color:var(--sand)}
+
+  .ex-website{width:360px;height:250px;background:#fff;box-shadow:0 0 0 1px #E4E2DC}
+  .ex .w-bar{left:0;right:0;top:0;height:22px;background:#F3F2EE;display:flex;align-items:center;gap:6px;padding-left:9px}  /* dots centred in the bar */
+  .w-bar i{position:static;width:7px;height:7px;border-radius:50%;background:#D6D4CE}
+  .ex-website .fw-logo{top:36px}
+  .w-nav{right:20px;top:38px;font:500 10px/1 var(--fw-text);color:#55576B}
+  .w-h{left:20px;top:70px;font:400 30px/1 var(--fw-display)}
+  .w-sub{left:20px;top:140px;font:12px/1 var(--fw-text);color:#55576B}
+  .w-btn{left:20px;top:162px;font:600 11px/1 var(--fw-text);color:#fff;background:var(--coral);padding:8px 12px;border-radius:7px}
+  .w-art{right:20px;top:66px;width:140px;height:120px;border-radius:10px;background:var(--sand);overflow:hidden}
+  .w-art .c{left:12px;top:26px;width:72px;height:72px;border-radius:50%;background:var(--teal)}
+  .w-art .s{right:14px;top:12px;width:34px;height:34px;background:var(--coral)}
+  .w-art .q{right:0;bottom:0;width:58px;height:58px;background:var(--ink);border-top-left-radius:100%}
+
+  .ex-deck{width:380px;height:214px;background:var(--ink)}
+  .d-q{right:0;top:0;width:130px;height:130px;background:var(--coral);border-bottom-left-radius:100%}
+  .d-k{left:24px;top:22px;font:600 10px/1 var(--fw-text);letter-spacing:.16em;text-transform:uppercase;color:var(--coral)}
+  .d-big{left:22px;top:38px;font:400 76px/1 var(--fw-display);color:var(--cream)}
+  .d-sub{left:24px;top:124px;font:400 17px/1.15 var(--fw-text);color:var(--cream)}
+  .d-sq{right:26px;bottom:26px;width:26px;height:26px;background:var(--teal)}
+
+  .ex-social{width:230px;height:230px;background:var(--coral)}
+  .s-h{left:20px;top:20px;font:400 40px/1 var(--fw-display);color:var(--cream)}
+  .s-q{right:0;bottom:0;width:110px;height:110px;background:var(--ink);border-top-left-radius:100%}
+
+  .ex-ad{width:230px;height:300px;background:#fff;box-shadow:0 0 0 1px #E4E2DC}
+  .a-head{left:14px;top:14px;display:flex;align-items:center;gap:7px;font:600 11px/1 var(--fw-text)}
+  .a-head i{position:static;width:22px;height:22px;border-radius:50%;background:var(--ink)}
+  .a-cap{left:14px;right:14px;top:46px;font:11px/1.35 var(--fw-text);color:#33354A}
+  .a-img{left:0;right:0;top:82px;height:170px;background:var(--sand);overflow:hidden}
+  .a-img .c{right:-20px;bottom:-20px;width:110px;height:110px;border-radius:50%;background:var(--teal)}
+  .a-img b{left:16px;top:16px;font:400 30px/1 var(--fw-display);color:var(--ink)}
+  .a-cta{right:14px;top:264px;font:600 11px/1 var(--fw-text);border:1.5px solid var(--ink);border-radius:999px;padding:6px 11px}
+
+  .ex-email{width:250px;height:290px;background:var(--cream);box-shadow:0 0 0 1px #E4E2DC}
+  .e-hero{left:20px;right:20px;top:46px;height:110px;background:var(--ink);border-radius:8px;overflow:hidden}
+  .e-hero b{left:16px;top:18px;font:400 22px/1.05 var(--fw-display);color:var(--cream)}
+  .e-hero::after{content:"";position:absolute;right:0;bottom:0;width:60px;height:60px;background:var(--coral);border-top-left-radius:100%}
+  .e-btn{left:20px;top:214px;font:600 11px/1 var(--fw-text);color:#fff;background:var(--coral);padding:9px 14px;border-radius:7px}
+
+  .ex-report{width:200px;height:270px;background:var(--ink)}
+  .r-t{left:20px;top:52px;font:400 30px/1.02 var(--fw-display);color:var(--cream)}
+  .r-q{right:0;bottom:0;width:130px;height:130px;background:var(--coral);border-top-left-radius:100%}
+  .r-s{left:20px;bottom:20px;width:26px;height:26px;background:var(--teal)}
+
+  .ex-sheet{width:220px;height:280px;background:#fff;box-shadow:0 0 0 1px #E4E2DC}
+  .h-bar{left:0;right:0;top:0;height:10px;background:var(--coral)}
+  .h-t{left:20px;top:30px;right:20px;font:400 22px/1.05 var(--fw-display)}
+  .h-stats{left:20px;right:20px;top:104px;display:flex;justify-content:space-between}
+  .h-stats span{position:static;font:11px/1.3 var(--fw-text);color:#77777E}
+  .h-stats b{position:static;display:block;font:400 22px/1 var(--fw-display);color:var(--teal)}
+
+  .ex-card{width:280px;height:170px;background:var(--ink)}
+  .k-q{right:0;top:0;width:64px;height:64px;background:var(--coral);border-bottom-left-radius:100%}
+  .k-n{left:20px;top:44px;font:700 19px/1 var(--fw-text);color:var(--cream)}  /* name and role up top: the bottom tucks under */
+  .k-m{left:20px;top:68px;font:11px/1 var(--fw-text);color:rgba(250,246,238,.6)}
+
+  .ex-banner{width:160px;height:310px;background:var(--teal)}
+  .ex-banner .fw-logo{left:16px;top:16px;font-size:11px;gap:5px}
+  .ex-banner .fw-logo i{width:10px;height:10px}
+  .b-h{left:16px;top:46px;font:400 24px/1.05 var(--fw-display);color:var(--cream);white-space:nowrap}  /* two lines: "Plan less." / "Ship more." */
+  .b-q{right:0;bottom:0;width:120px;height:120px;background:var(--ink);border-top-left-radius:100%}
+
+  .ex-tee{width:240px;height:240px;background:var(--sand)}
+  .t-shirt{left:30px;top:24px;width:180px;height:186px}
+  .t-print{left:70px;top:94px;width:100px;text-align:center;font:400 13px/1.05 var(--fw-display);color:var(--cream)}
+  .t-print i{position:static;width:22px;height:22px;margin:0 auto 6px;background:var(--coral);border-top-left-radius:100%}
+
+  .ex-video{width:340px;height:192px;background:var(--ink)}
+  .v-c{left:24px;top:20px;width:70px;height:70px;border-radius:50%;background:var(--teal)}
+  .v-q{right:24px;top:18px;width:84px;height:84px;background:var(--coral);border-top-left-radius:100%}
+  .v-h{left:24px;top:100px;font:400 24px/1 var(--fw-display);color:var(--cream)}
+  .v-ctrl{left:16px;right:16px;bottom:14px;height:10px;display:flex;align-items:center;gap:8px}
+  .v-ctrl .tri{position:static;width:0;height:0;border-left:8px solid var(--cream);border-top:5px solid transparent;border-bottom:5px solid transparent}
+  .v-ctrl .track{position:static;flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.18);overflow:hidden}
+  .v-ctrl .track i{position:static;width:40%;height:100%;background:var(--coral)}
+</style>
