@@ -24,14 +24,14 @@ const words = statement.split(' ');
 </section>
 
 <style>
-  .why{padding-top:0;padding-bottom:0}
+  /* the section keeps its normal top and bottom padding, so there is space as the paragraph scrolls in and out */
   /* the scroll track: the paragraph stays pinned for the extra height beyond one screen */
   .why-scroll{height:240vh}
-  .why-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center}
+  .why-sticky{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center}  /* svh: the visible height on phones, with the address bar showing */
   .why-sticky .mk-wrap{width:100%}
-  .statement{font:400 min(clamp(32px,4.95vw,70px),9.5vh)/1.02 var(--mk-display);  /* vh cap: must fit when pinned on short screens */
-    color:var(--mk-text);margin:0;max-width:1200px;text-wrap:pretty}
-  @media (max-width: 900px){ .statement{font-size:min(clamp(32px,5.8vw,48px),9.5vh)} }  /* grows on tablets */
+  /* preferred size; the script shrinks it if needed so the pinned paragraph always fits the screen with room to spare */
+  .statement{font:400 clamp(32px,4.95vw,70px)/1.02 var(--mk-display);color:var(--mk-text);margin:0;max-width:1200px;text-wrap:pretty}
+  @media (max-width: 900px){ .statement{font-size:clamp(32px,5.8vw,48px)} }  /* grows on tablets */
   /* each word starts dim; the script raises --lit from 0 to 1 */
   .w{opacity:calc(.14 + .86 * var(--lit, 0))}
 
@@ -46,6 +46,27 @@ const words = statement.split(' ');
   const track = document.getElementById('why-scroll');
   const words = track ? [...track.querySelectorAll<HTMLElement>('.w')] : [];
   const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const para = track?.querySelector<HTMLElement>('.statement');
+
+  // Fit: start from the CSS size and step down until the paragraph is no taller than the screen
+  // minus a generous margin top and bottom (clear of the floating nav). Runs on load, once the
+  // display font is in, and on resize.
+  const fitText = () => {
+    if (!para) return;
+    para.style.fontSize = '';
+    let size = parseFloat(getComputedStyle(para).fontSize);
+    const room = window.innerHeight - 2 * Math.max(96, window.innerHeight * .14);
+    while (para.getBoundingClientRect().height > room && size > 18) {
+      size -= 1;
+      para.style.fontSize = `${size}px`;
+    }
+  };
+  if (!reduced) {
+    fitText();
+    document.fonts?.ready.then(fitText);
+    let t = 0;
+    window.addEventListener('resize', () => { clearTimeout(t); t = window.setTimeout(fitText, 100); });
+  }
 
   if (track && words.length && !reduced) {
     let ticking = false;
