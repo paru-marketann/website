@@ -33,6 +33,7 @@ a{color:inherit}
 /* Clips anything that spills past the sides (the hero grid). On a wrapper, not body: body overflow
    is handed to the window, where it can still be scrolled sideways by focus and anchor jumps. */
 .mk-page{overflow-x:clip}
+@supports not (overflow-x:clip){ .mk-page{overflow-x:hidden} }  /* older iPhones */
 .mk-wrap{max-width:1280px;margin:0 auto;padding-left:40px;padding-right:40px}
 .mk-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 

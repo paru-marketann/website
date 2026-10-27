@@ -13,6 +13,7 @@ const refractionMap = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http
 ---
 
 <header class="mk-head" id="mk-head">
+  <div class="mk-head-fix">
   <div class="mk-bar">
     <a class="mk-logo" href="#top" aria-label="Marketann"><Logo /></a>
     <nav class="mk-nav" aria-label="Main">
@@ -20,6 +21,7 @@ const refractionMap = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http
       <a class="mk-link" href="#why-us">Why us</a>
       <a class="mk-contact" href="#contact">Contact</a>
     </nav>
+  </div>
   </div>
   <svg class="mk-glass-defs" width="0" height="0" aria-hidden="true" focusable="false">
     <filter id="mk-glass" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
@@ -30,9 +32,12 @@ const refractionMap = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http
 </header>
 
 <style>
-  /* The header strip is always 84px tall in the page flow and sticks to the top. Only the bar inside
-     it takes clicks, so the transparent strip around the floating bar doesn't block the page. */
-  .mk-head{position:sticky;top:0;z-index:50;height:84px;pointer-events:none;display:flow-root}  /* flow-root: keeps the bar's top margin inside */
+  /* The header element is an 84px spacer in the page flow; the bar lives in a fixed layer on top.
+     (position:fixed rather than sticky: iPhone Safari can catch or jump while scrolling with a sticky
+     header inside the page's overflow-clipping wrapper.) Only the bar takes clicks, so the transparent
+     strip around the floating bar doesn't block the page. */
+  .mk-head{position:relative;height:84px}
+  .mk-head-fix{position:fixed;top:0;left:0;right:0;z-index:50;pointer-events:none;display:flow-root}  /* flow-root: keeps the bar's top margin inside */
   .mk-bar{pointer-events:auto;position:relative;isolation:isolate;display:flex;align-items:center;justify-content:space-between;
     height:84px;max-width:1280px;margin:0 auto;padding:0 40px;border-radius:999px;  /* pill: fully round ends */
     transition:max-width .5s cubic-bezier(.2,.8,.2,1),height .5s cubic-bezier(.2,.8,.2,1),margin-top .5s cubic-bezier(.2,.8,.2,1),padding .5s cubic-bezier(.2,.8,.2,1)}
