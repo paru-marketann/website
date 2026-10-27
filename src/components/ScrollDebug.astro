@@ -1,10 +1,23 @@
 ---
 // Temporary: a small read-out of scroll and viewport numbers, for chasing the iPhone (Google app)
 // bug where the page can't scroll back to the top. Only shows with ?debug in the URL. Remove once fixed.
+// ?debug&t=anim,blur,fixed switches suspects off, one or more at a time:
+//   anim  hides the moving parts (hero animation, step animations, examples strip)
+//   blur  drops the frosted blur behind the nav
+//   fixed lets the nav scroll away with the page instead of staying fixed
 ---
 
+<style is:global>
+  html.dbg-anim .mk-anim, html.dbg-anim .sa, html.dbg-anim .mq{display:none!important}
+  html.dbg-blur *, html.dbg-blur *::before{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  html.dbg-fixed .mk-head-fix{position:absolute!important}
+</style>
+
 <script>
-  if (new URLSearchParams(location.search).has('debug')) {
+  const params = new URLSearchParams(location.search);
+  const off = (params.get('t') ?? '').split(',').filter(Boolean);
+  off.forEach((t) => document.documentElement.classList.add(`dbg-${t}`));
+  if (params.has('debug')) {
     const box = document.createElement('pre');
     box.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:9999;margin:0;padding:8px 10px;max-width:calc(100% - 16px);' +
       'background:rgba(255,40,40,.92);color:#fff;font:11px/1.35 ui-monospace,Menlo,monospace;border-radius:8px;white-space:pre-wrap;pointer-events:none';
@@ -23,7 +36,8 @@
         `vv top ${vv ? r(vv.offsetTop) : '-'}  pageTop ${vv ? r(vv.pageTop) : '-'}  h ${vv ? r(vv.height) : '-'}  scale ${vv ? vv.scale.toFixed(2) : '-'}\n` +
         `innerH ${innerHeight}  clientH ${d.clientHeight}  docH ${d.scrollHeight}  docW ${d.scrollWidth}/${innerWidth}\n` +
         `nav top ${head ? r(head.getBoundingClientRect().top) : '-'}  h1 top ${h1 ? r(h1.getBoundingClientRect().top) : '-'}\n` +
-        `restore ${history.scrollRestoration}  ${ua}`;
+        `restore ${history.scrollRestoration}  ${ua}\n` +
+        `off: ${off.join(', ') || 'nothing'}`;
     };
     window.addEventListener('scroll', () => { scrolls++; draw(); }, { passive: true });
     window.visualViewport?.addEventListener('resize', draw);
