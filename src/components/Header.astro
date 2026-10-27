@@ -1,34 +1,115 @@
 ---
 import Logo from './Logo.astro';
+
+// Displacement map for the glass edge refraction: red = sideways shift, green = vertical shift,
+// 50% = no shift. The shift ramps up towards the edges, so the page behind bends like a lens rim.
+const refractionMap = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+<defs>
+<linearGradient id="x"><stop offset="0" stop-color="#ff0000"/><stop offset=".1" stop-color="#800000"/><stop offset=".9" stop-color="#800000"/><stop offset="1" stop-color="#000000"/></linearGradient>
+<linearGradient id="y" x2="0" y2="1"><stop offset="0" stop-color="#00ff00"/><stop offset=".3" stop-color="#008000"/><stop offset=".7" stop-color="#008000"/><stop offset="1" stop-color="#000000"/></linearGradient>
+</defs>
+<rect width="100" height="100" fill="url(#x)"/><rect width="100" height="100" fill="url(#y)" style="mix-blend-mode:screen"/>
+</svg>`)}`;
 ---
 
-<header class="mk-head">
-  <a class="mk-logo" href="#top" aria-label="Marketann"><Logo /></a>
-  <nav class="mk-nav" aria-label="Main">
-    <a class="mk-link" href="#how-it-works">How it works</a>
-    <a class="mk-link" href="#why-us">Why us</a>
-    <a class="mk-contact" href="#contact">Contact</a>
-  </nav>
+<header class="mk-head" id="mk-head">
+  <div class="mk-bar">
+    <a class="mk-logo" href="#top" aria-label="Marketann"><Logo /></a>
+    <nav class="mk-nav" aria-label="Main">
+      <a class="mk-link" href="#how-it-works">How it works</a>
+      <a class="mk-link" href="#why-us">Why us</a>
+      <a class="mk-contact" href="#contact">Contact</a>
+    </nav>
+  </div>
+  <svg class="mk-glass-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <filter id="mk-glass" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feImage href={refractionMap} x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="map" />
+      <feDisplacementMap in="SourceGraphic" in2="map" scale="22" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
 </header>
 
 <style>
-  .mk-head{display:flex;align-items:center;justify-content:space-between;height:84px;padding:0 28px}
-  .mk-logo :global(svg){height:20px}
+  /* The header strip is always 84px tall in the page flow and sticks to the top. Only the bar inside
+     it takes clicks, so the transparent strip around the floating bar doesn't block the page. */
+  .mk-head{position:sticky;top:0;z-index:50;height:84px;pointer-events:none;display:flow-root}  /* flow-root: keeps the bar's top margin inside */
+  .mk-bar{pointer-events:auto;position:relative;isolation:isolate;display:flex;align-items:center;justify-content:space-between;
+    height:84px;max-width:1280px;margin:0 auto;padding:0 40px;border-radius:999px;  /* pill: fully round ends */
+    transition:max-width .5s cubic-bezier(.2,.8,.2,1),height .5s cubic-bezier(.2,.8,.2,1),margin-top .5s cubic-bezier(.2,.8,.2,1),padding .5s cubic-bezier(.2,.8,.2,1)}
+  /* glass layer: just frosted tint (blur + saturate), no border, bevel or shadow; faded in on scroll.
+     A light tint over dark sections; over light sections it flips (see .on-light below). */
+  .mk-bar::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;
+    background:rgba(30,30,34,.38);
+    -webkit-backdrop-filter:blur(14px) saturate(170%);backdrop-filter:blur(14px) saturate(170%);
+    opacity:0;transition:opacity .35s ease,background-color .35s ease}
+  /* Chromium can also refract: bend the page behind the edges of the bar (see the filter above) */
+  :global(html.mk-refract) .mk-bar::before{backdrop-filter:url(#mk-glass) blur(10px) saturate(170%)}
+  .mk-glass-defs{position:absolute;width:0;height:0;overflow:hidden}
+
+  /* on scroll: contracts to a compact pill, lifted off the top, shorter */
+  /* right padding = (bar height - button height) / 2, so the button sits concentric in the pill's round end */
+  .mk-head.is-scrolled .mk-bar{max-width:min(860px, calc(100% - 32px));height:56px;margin-top:12px;padding:0 10px 0 24px}
+  .mk-head.is-scrolled .mk-bar::before{opacity:1}
+
+  .mk-logo{transition:color .35s ease}
+  .mk-logo :global(svg){height:20px;transition:height .5s cubic-bezier(.2,.8,.2,1)}
+  .is-scrolled .mk-logo :global(svg){height:18px}
   .mk-nav{display:flex;align-items:center;gap:32px}
-  .mk-link{font:500 15px var(--mk-font);text-decoration:none;color:var(--mk-body);transition:color .2s}
+  .mk-link{font:500 15px var(--mk-font);text-decoration:none;color:var(--mk-body);transition:color .35s ease}
+  .is-scrolled .mk-link{color:rgba(237,235,230,.82)}
   .mk-link:hover{color:var(--mk-text)}
-  .mk-contact{font:700 13px var(--mk-font);text-transform:uppercase;letter-spacing:.04em;text-decoration:none;color:var(--mk-bg);background:#fff;padding:10px 18px;border-radius:20px;corner-shape:squircle;transition:background .2s}
+  .mk-contact{font:700 13px var(--mk-font);text-transform:uppercase;letter-spacing:.04em;text-decoration:none;color:var(--mk-bg);background:#fff;display:inline-flex;align-items:center;height:36px;padding:0 18px;border-radius:999px;transition:background .35s ease,color .35s ease}
   .mk-contact:hover{background:var(--mk-text)}
 
+  /* Over a light section (.mk-section--light) the bar flips: light frost, dark logo, links and button */
+  .on-light .mk-bar::before{background:rgba(226,225,221,.62)}  /* a faint grey, so the pill still shows against white */
+  .on-light .mk-logo{color:#0B0B0C}
+  .on-light .mk-link{color:rgba(11,11,12,.72)}
+  .on-light .mk-link:hover{color:#0B0B0C}
+  .on-light .mk-contact{background:#0B0B0C;color:#FFFFFF}
+  .on-light .mk-contact:hover{background:#2A2A2E}
+
   @media (max-width: 900px){
-    .mk-head{height:68px;padding:0 16px}
+    .mk-head{height:68px}
+    .mk-bar{height:68px;padding:0 16px}
+    .mk-head.is-scrolled .mk-bar{max-width:min(560px, calc(100% - 16px));height:52px;margin-top:8px;padding:0 10px 0 18px}
     .mk-nav{gap:20px}
     .mk-link{font-size:14px}
-    .mk-contact{font-size:12px;padding:9px 14px}
+    .mk-contact{font-size:12px;height:32px;padding:0 14px}
     .mk-logo :global(svg){height:17px}
+    .is-scrolled .mk-logo :global(svg){height:16px}
   }
   /* no room for the text links on small phones; the sections are a scroll away */
   @media (max-width: 520px){
     .mk-link{display:none}
   }
+  @media (prefers-reduced-motion: reduce){
+    .mk-bar, .mk-bar::before, .mk-logo :global(svg){transition:none}
+  }
 </style>
+
+<script>
+  const head = document.getElementById('mk-head');
+  if (head) {
+    const bar = head.querySelector<HTMLElement>('.mk-bar')!;
+    const lightSections = document.querySelectorAll<HTMLElement>('.mk-section--light');
+    const update = () => {
+      head.classList.toggle('is-scrolled', window.scrollY > 12);
+      // flip colours while the middle of the bar is over a light section
+      const r = bar.getBoundingClientRect();
+      const y = r.top + r.height / 2;
+      const onLight = [...lightSections].some((s) => {
+        const b = s.getBoundingClientRect();
+        return b.top <= y && b.bottom >= y;
+      });
+      head.classList.toggle('on-light', onLight);
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  }
+  // Only Chromium refracts the backdrop through an SVG filter; others keep the frosted blur
+  if (CSS.supports('backdrop-filter', 'url(#mk-glass)') && /Chrome\//.test(navigator.userAgent)) {
+    document.documentElement.classList.add('mk-refract');
+  }
+</script>

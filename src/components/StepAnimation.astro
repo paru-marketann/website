@@ -1,0 +1,246 @@
+---
+// Short looping animations for the three How it works steps, in the style of the hero animation
+// (dark platform UI, Fieldwork's example brand, gold accents). Pure CSS: everything is sized in
+// container units (cqw) so it scales with the card. The base styles are the settled frame, which is
+// what people who prefer reduced motion see. Animations pause while off screen.
+interface Props {
+  kind: 'build' | 'create' | 'change';
+}
+const { kind } = Astro.props;
+---
+
+<div class:list={['sa', `sa-${kind}`]} aria-hidden="true">
+  {kind === 'build' && (
+    <>
+      <div class="b-ring" />
+      <div class="b-panel">
+        <div class="b-head"><i /><span /></div>
+        <div class="b-zone b-l" />
+        <div class="b-zone b-r" />
+      </div>
+      <i class="pc sw" style="--x:26;--y:28;--sx:-16cqw;--sy:-15cqw;--r:-8deg;--i:0;--c:var(--ink)" />
+      <i class="pc sw" style="--x:35.5;--y:28;--sx:0cqw;--sy:-18cqw;--r:6deg;--i:1;--c:var(--coral)" />
+      <i class="pc sw" style="--x:45;--y:28;--sx:16cqw;--sy:-16cqw;--r:-5deg;--i:2;--c:var(--teal)" />
+      <i class="pc sw" style="--x:26;--y:41;--sx:-16cqw;--sy:9cqw;--r:7deg;--i:3;--c:var(--sand)" />
+      <i class="pc aa" style="--x:35.5;--y:41;--sx:3cqw;--sy:13cqw;--r:-10deg;--i:4">Aa</i>
+      <i class="pc qt" style="--x:45;--y:41;--sx:-7cqw;--sy:13cqw;--r:12deg;--i:5" />
+      <i class="pc chip" style="--x:66.5;--y:26;--sx:8cqw;--sy:-15cqw;--r:5deg;--i:6" />
+      <i class="pc chip" style="--x:66.5;--y:34;--sx:9cqw;--sy:3cqw;--r:-4deg;--i:7" />
+      <i class="pc chip" style="--x:66.5;--y:42;--sx:6cqw;--sy:12cqw;--r:3deg;--i:8" />
+    </>
+  )}
+
+  {kind === 'create' && (
+    <>
+      <div class="c-glow" />
+      <div class="c-prompt">
+        <svg class="c-spark" viewBox="0 0 24 24"><path d="M12 2c.6 4.9 2.6 7.4 8 8.5v1c-5.4 1.1-7.4 3.6-8 8.5h-1c-.6-4.9-2.6-7.4-8-8.5v-1c5.4-1.1 7.4-3.6 8-8.5h1Z" fill="#F6C443" /></svg>
+        <span class="c-line"><span class="c-type c-type-deck">Pitch deck</span><span class="c-type c-type-site">Website</span><i class="c-caret" /></span>
+        <span class="c-send"><svg viewBox="0 0 16 16" fill="none"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" stroke="#0B0B0C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+      </div>
+      <i class="c-dot" style="--tx:-14cqw;--ty:16cqw;--c:var(--coral)" />
+      <i class="c-dot" style="--tx:2cqw;--ty:20cqw;--c:var(--teal)" />
+      <i class="c-dot" style="--tx:16cqw;--ty:14cqw;--c:var(--sand)" />
+      <div class="c-deck">
+        <i class="c-q" style="--i:0" />
+        <b class="c-big" style="--i:1">3×</b>
+        <i class="c-ln" style="--i:2;top:22cqw;width:30cqw" />
+        <i class="c-ln" style="--i:3;top:25.5cqw;width:20cqw" />
+        <i class="c-sq" style="--i:4" />
+      </div>
+      <div class="c-site">
+        <i class="c-chrome" style="--i:0"><i /><i /><i /></i>
+        <i class="c-logo" style="--i:1" />
+        <i class="c-nav" style="--i:1" />
+        <i class="c-signin" style="--i:1" />
+        <b class="c-h" style="--i:2">Plan less.<br />Ship more.</b>
+        <i class="c-sub" style="--i:3" />
+        <i class="c-cta" style="--i:3" />
+        <i class="c-art" style="--i:4"><i class="c-art-c" /><i class="c-art-s" /><i class="c-art-q" /></i>
+      </div>
+    </>
+  )}
+
+  {kind === 'change' && (
+    <>
+      <div class="x-panel">
+        <i class="x-sw" style="left:9cqw;background:var(--ink)" />
+        <i class="x-sw x-acc-sw" style="left:23.5cqw" />
+        <i class="x-sw" style="left:38cqw;background:var(--teal)" />
+        <i class="x-ring" />
+      </div>
+      <svg class="x-cursor" viewBox="0 0 24 24"><path d="M5 3l14 8-6.5 1.5L10 19z" fill="#EDEBE6" stroke="#0B0B0C" stroke-width="1.5" stroke-linejoin="round" /></svg>
+      <i class="x-dot" style="--tx:-30.5cqw;--ty:13cqw" />
+      <i class="x-dot" style="--tx:0cqw;--ty:13cqw" />
+      <i class="x-dot" style="--tx:30.5cqw;--ty:13cqw" />
+      <div class="x-card x-site" style="left:6cqw">
+        <i class="x-bar" /><i class="x-h1" /><i class="x-h2" />
+        <i class="x-btn x-acc" /><i class="x-blob x-acc" />
+      </div>
+      <div class="x-card x-social x-acc" style="left:36.5cqw">
+        <i class="x-t1" /><i class="x-t2" /><i class="x-corner" />
+      </div>
+      <div class="x-card x-biz" style="left:67cqw">
+        <i class="x-q x-acc" /><i class="x-n" /><i class="x-m" />
+      </div>
+    </>
+  )}
+</div>
+
+<style>
+  .sa{position:relative;width:100%;aspect-ratio:16/10;container-type:inline-size;overflow:hidden;
+    background:#111113;
+    background-image:linear-gradient(rgba(237,235,230,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(237,235,230,.09) 1px,transparent 1px);
+    background-size:6cqw 6cqw;background-position:center;
+    --ink:#1E2240; --coral:#F2603F; --teal:#1FA39A; --sand:#EFE6D6; --cream:#FAF6EE; --violet:#7A5AF8;
+    --gold-ring:linear-gradient(90deg,#FFE680,#F6C443 50%,#F09C3C)}
+  .sa *{position:absolute}
+  .sa i, .sa b{display:block}
+  .sa .c-type, .sa .c-caret, .sa .c-send svg{position:relative}
+  /* !important so the per-element `animation` shorthands below can't reset these back to play-once */
+  .sa *{animation-fill-mode:both !important;animation-iteration-count:infinite !important}
+  .sa.paused, .sa.paused *{animation-play-state:paused}
+  @media (prefers-reduced-motion: reduce){ .sa *{animation:none !important} }
+
+  /* ---------- 1. Build: brand pieces fly into the engine (4s) ---------- */
+  .sa-build{--dur:4s}
+  .b-panel{left:15cqw;top:9cqw;width:70cqw;height:44cqw;background:#18181B;border-radius:3cqw;corner-shape:squircle;box-shadow:0 0 0 1px #2A2A2F;
+    animation:b-panel var(--dur) ease-out}
+  .b-head{left:0;right:0;top:0;height:7cqw;box-shadow:inset 0 -1px 0 #2A2A2F}
+  .b-head i{left:3cqw;top:2.6cqw;width:1.8cqw;height:1.8cqw;border-radius:50%;background:var(--gold-ring)}
+  .b-head span{position:absolute;left:6.5cqw;top:3cqw;width:14cqw;height:1.2cqw;border-radius:1cqw;background:#6E6E76}
+  .b-zone{top:10cqw;height:31cqw;width:31cqw;background:#111113;border-radius:2cqw;corner-shape:squircle}
+  .b-l{left:3cqw} .b-r{left:36cqw}
+  .b-ring{left:14cqw;top:8cqw;width:72cqw;height:46cqw;border-radius:3.6cqw;corner-shape:squircle;padding:.5cqw;background:var(--gold-ring);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+    mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+    opacity:0;animation:b-ring var(--dur) ease-out}
+  .pc{left:calc(var(--x) * 1cqw);top:calc(var(--y) * 1cqw);transform:translate(-50%,-50%) translate(0,0) rotate(0deg) scale(1);
+    animation:b-piece var(--dur) cubic-bezier(.65,0,.35,1);animation-delay:calc(var(--i) * 50ms)}
+  .sw{width:7cqw;height:7cqw;border-radius:50%;background:var(--c);box-shadow:0 0 0 1px rgba(255,255,255,.08)}
+  .aa{font:400 8.5cqw/1 var(--fw-display);font-style:normal;color:#EDEBE6}
+  .qt{width:7cqw;height:7cqw;background:var(--coral);border-top-left-radius:100%}
+  .chip{width:25cqw;height:5.6cqw;background:#18181B;border-radius:1.4cqw;box-shadow:0 0 0 1px #2A2A2F}
+  .chip::after{content:"";position:absolute;left:2cqw;top:2.3cqw;width:14cqw;height:1.1cqw;border-radius:1cqw;background:#A4A3A8}
+  @keyframes b-panel{0%,16%{opacity:0;transform:scale(.94)} 28%,88%{opacity:1;transform:scale(1)} 100%{opacity:0;transform:scale(1)}}
+  @keyframes b-piece{
+    0%{opacity:0;transform:translate(-50%,-50%) translate(var(--sx),var(--sy)) rotate(var(--r)) scale(.6)}
+    10%,24%{opacity:1;transform:translate(-50%,-50%) translate(var(--sx),var(--sy)) rotate(var(--r)) scale(1)}
+    46%,86%{opacity:1;transform:translate(-50%,-50%) translate(0,0) rotate(0deg) scale(1)}
+    96%,100%{opacity:0;transform:translate(-50%,-50%) translate(0,0) rotate(0deg) scale(1)}}
+  @keyframes b-ring{0%,52%{opacity:0;transform:scale(1)} 56%{opacity:.9;transform:scale(1)} 74%,100%{opacity:0;transform:scale(1.05)}}
+
+  /* ---------- 2. Create: type a prompt, on-brand work comes out. Two rounds per loop:
+     "Pitch deck" builds a slide (first half), then "Website" builds a site (second half). 9s ---------- */
+  .sa-create{--dur:9s}
+  .c-prompt{left:10cqw;top:6cqw;width:80cqw;height:12cqw;background:#141416;border-radius:999px;box-shadow:0 0 0 1px #2A2A2F;
+    display:flex;align-items:center}
+  .c-glow{left:9.6cqw;top:5.6cqw;width:80.8cqw;height:12.8cqw;border-radius:999px;background:var(--gold-ring);
+    box-shadow:0 0 6cqw .6cqw rgba(246,196,67,.25);opacity:0;animation:c-glow var(--dur) ease-out}
+  .c-spark{position:absolute;left:3.4cqw;top:3.6cqw;width:4.8cqw;height:4.8cqw}
+  .c-line{position:absolute;left:10.5cqw;top:3.3cqw;height:5.4cqw;display:flex;align-items:center}
+  .c-type{display:inline-block;overflow:hidden;white-space:nowrap;font:400 4.8cqw/1.1 var(--mk-font);color:#EDEBE6}
+  .c-type-deck{max-width:30cqw;animation:c-type-deck var(--dur) steps(10,end)}
+  .c-type-site{max-width:0;animation:c-type-site var(--dur) steps(7,end)}
+  .sa .c-caret{display:inline-block;width:.4cqw;height:5cqw;margin-left:.3cqw;background:linear-gradient(#FFE680,#F09C3C);animation:c-blink 1s steps(1) infinite}
+  .c-send{position:absolute;right:1.4cqw;top:1.4cqw;width:9.2cqw;height:9.2cqw;border-radius:50%;background:#EDEBE6;display:grid;place-items:center;
+    animation:c-send var(--dur) ease-out}
+  .c-send svg{width:4.4cqw;height:4.4cqw}
+  .c-dot{left:calc(50cqw - 1cqw);top:17cqw;width:2.2cqw;height:2.2cqw;border-radius:50%;background:var(--c);opacity:0;animation:c-dot var(--dur) cubic-bezier(.65,0,.35,1)}
+
+  /* outputs share a frame */
+  .c-deck, .c-site{left:18cqw;top:23.5cqw;width:64cqw;height:36cqw;border-radius:2cqw;overflow:hidden;transform-origin:50% 0}
+  .c-deck{background:var(--ink);box-shadow:0 0 0 1px rgba(255,255,255,.08);animation:c-out-deck var(--dur) cubic-bezier(.2,.8,.2,1)}
+  .c-deck > *{animation:c-part-deck var(--dur) ease-out;animation-delay:calc(var(--i) * 90ms)}
+  .c-q{right:0;top:0;width:22cqw;height:22cqw;background:var(--coral);border-bottom-left-radius:100%}
+  .c-big{left:5cqw;top:4cqw;font:400 14cqw/1 var(--fw-display);color:var(--cream)}
+  .c-ln{left:5cqw;height:1.6cqw;border-radius:1cqw;background:rgba(250,246,238,.75)}
+  .c-sq{right:4.5cqw;bottom:4.5cqw;width:5.5cqw;height:5.5cqw;background:var(--teal)}
+
+  /* mini Fieldwork website */
+  .c-site{background:#FFFFFF;opacity:0;animation:c-out-site var(--dur) cubic-bezier(.2,.8,.2,1)}
+  .c-site > *{animation:c-part-site var(--dur) ease-out;animation-delay:calc(var(--i) * 90ms)}
+  .c-chrome{left:0;right:0;top:0;height:3.6cqw;background:#F3F2EE}
+  .c-chrome i{position:relative;display:inline-block;width:1.1cqw;height:1.1cqw;margin:1.25cqw 0 0 1.2cqw;border-radius:50%;background:#D6D4CE}
+  .c-logo{left:6.3cqw;top:6.2cqw;width:9cqw;height:2.2cqw;border-radius:.6cqw;background:var(--ink)}
+  .c-logo::before{content:"";position:absolute;left:-2.8cqw;top:-.2cqw;width:2.4cqw;height:2.4cqw;background:var(--coral);border-top-left-radius:100%}
+  .c-nav{left:33cqw;top:6.8cqw;width:14cqw;height:1.1cqw;border-radius:1cqw;background:repeating-linear-gradient(90deg,#9A9AA6 0 3.4cqw,transparent 3.4cqw 5cqw)}
+  .c-signin{right:3.5cqw;top:5.8cqw;width:8cqw;height:3cqw;border-radius:.8cqw;background:var(--ink)}
+  .c-h{left:3.5cqw;top:12cqw;font:400 5.6cqw/1 var(--fw-display);color:var(--ink)}
+  .c-sub{left:3.5cqw;top:25cqw;width:22cqw;height:1.2cqw;border-radius:1cqw;background:#B9BAC4}
+  .c-cta{left:3.5cqw;top:28.6cqw;width:10cqw;height:3.6cqw;border-radius:1cqw;background:var(--coral)}
+  .c-art{right:3.5cqw;top:11cqw;width:25cqw;height:21cqw;border-radius:1.4cqw;background:var(--sand);overflow:hidden}
+  .c-art-c{left:2cqw;top:4cqw;width:12cqw;height:12cqw;border-radius:50%;background:var(--teal)}
+  .c-art-s{right:2.5cqw;top:2.5cqw;width:6cqw;height:6cqw;background:var(--coral)}
+  .c-art-q{right:0;bottom:0;width:11cqw;height:11cqw;background:var(--ink);border-top-left-radius:100%}
+
+  @keyframes c-blink{50%{opacity:0}}
+  @keyframes c-type-deck{0%,3%{max-width:0} 15%,42%{max-width:30cqw} 47%,100%{max-width:0}}
+  @keyframes c-type-site{0%,53%{max-width:0} 65%,92%{max-width:24cqw} 97%,100%{max-width:0}}
+  @keyframes c-send{0%,16%{transform:scale(1)} 17.5%{transform:scale(.84)} 20%,66%{transform:scale(1)} 67.5%{transform:scale(.84)} 70%,100%{transform:scale(1)}}
+  @keyframes c-glow{0%,16.5%{opacity:0} 19%,29%{opacity:1} 34%,66.5%{opacity:0} 69%,79%{opacity:1} 84%,100%{opacity:0}}
+  @keyframes c-dot{
+    0%,18%{opacity:0;transform:translate(0,0) scale(1)} 19.5%{opacity:1;transform:translate(0,0) scale(1)}
+    25%{opacity:1;transform:translate(var(--tx),var(--ty)) scale(.8)} 27.5%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(1.8)}
+    68%{opacity:0;transform:translate(0,0) scale(1)} 69.5%{opacity:1;transform:translate(0,0) scale(1)}
+    75%{opacity:1;transform:translate(var(--tx),var(--ty)) scale(.8)} 77.5%,100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(1.8)}}
+  @keyframes c-out-deck{0%,21%{opacity:0;transform:translateY(-12cqw) scale(.3)} 28%,43%{opacity:1;transform:translateY(0) scale(1)}
+    47.5%,100%{opacity:0;transform:translateY(1.5cqw) scale(.97)}}
+  @keyframes c-out-site{0%,71%{opacity:0;transform:translateY(-12cqw) scale(.3)} 78%,93%{opacity:1;transform:translateY(0) scale(1)}
+    97.5%,100%{opacity:0;transform:translateY(1.5cqw) scale(.97)}}
+  @keyframes c-part-deck{0%,25%{opacity:0;transform:translateY(2cqw)} 31%,100%{opacity:1;transform:translateY(0)}}
+  @keyframes c-part-site{0%,75%{opacity:0;transform:translateY(2cqw)} 81%,100%{opacity:1;transform:translateY(0)}}
+
+  /* ---------- 3. Change: change one colour, every output follows (5s) ---------- */
+  .sa-change{--dur:5s}
+  .x-panel{left:25cqw;top:5cqw;width:50cqw;height:17cqw;background:#18181B;border-radius:3cqw;corner-shape:squircle;box-shadow:0 0 0 1px #2A2A2F}
+  .x-sw{top:4.5cqw;width:8cqw;height:8cqw;border-radius:50%;box-shadow:0 0 0 1px rgba(255,255,255,.08)}
+  .x-acc-sw{background:var(--coral);animation:x-acc-sw var(--dur) ease-in-out}
+  .x-ring{left:22.5cqw;top:3.5cqw;width:10cqw;height:10cqw;border-radius:50%;padding:.5cqw;background:var(--gold-ring);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+    mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+    opacity:0;animation:x-ring var(--dur) ease-out}
+  .x-cursor{position:absolute;left:52cqw;top:15cqw;width:5.5cqw;height:5.5cqw;animation:x-cursor var(--dur) ease-in-out}
+  .x-dot{left:49cqw;top:21cqw;width:2cqw;height:2cqw;border-radius:50%;background:#F6C443;box-shadow:0 0 2cqw rgba(246,196,67,.6);opacity:0;
+    animation:x-dot var(--dur) cubic-bezier(.65,0,.35,1)}
+  .x-card{top:34cqw;width:27cqw;height:23cqw;border-radius:2cqw;overflow:hidden;animation:x-flash var(--dur) ease-out}
+  .x-acc{background-color:var(--coral);animation:x-acc var(--dur) ease-in-out}
+  .x-card.x-acc{animation:x-acc var(--dur) ease-in-out,x-flash var(--dur) ease-out}
+  .x-site{background:#FFFFFF}
+  .x-bar{left:0;right:0;top:0;height:3cqw;background:#F3F2EE}
+  .x-h1{left:2.5cqw;top:6cqw;width:13cqw;height:2.4cqw;border-radius:.6cqw;background:var(--ink)}
+  .x-h2{left:2.5cqw;top:9.6cqw;width:9cqw;height:2.4cqw;border-radius:.6cqw;background:var(--ink)}
+  .x-btn{left:2.5cqw;top:15cqw;width:8cqw;height:3.4cqw;border-radius:1cqw}
+  .x-blob{right:2cqw;top:6cqw;width:9cqw;height:9cqw;border-radius:50%}
+  .x-t1{left:2.5cqw;top:3cqw;width:14cqw;height:3cqw;border-radius:.6cqw;background:var(--cream)}
+  .x-t2{left:2.5cqw;top:7.4cqw;width:10cqw;height:3cqw;border-radius:.6cqw;background:var(--cream)}
+  .x-corner{right:0;bottom:0;width:13cqw;height:13cqw;background:var(--ink);border-top-left-radius:100%}
+  .x-biz{background:var(--ink)}
+  .x-q{right:0;top:0;width:9cqw;height:9cqw;border-bottom-left-radius:100%}
+  .x-n{left:2.5cqw;bottom:6.5cqw;width:12cqw;height:2.2cqw;border-radius:.6cqw;background:var(--cream)}
+  .x-m{left:2.5cqw;bottom:3cqw;width:16cqw;height:1.4cqw;border-radius:.6cqw;background:rgba(250,246,238,.55)}
+  @keyframes x-cursor{0%,4%{transform:translate(14cqw,10cqw);opacity:0} 10%{opacity:1} 17%{transform:translate(0,0) scale(1)}
+    19%{transform:translate(0,0) scale(.85)} 21%,60%{transform:translate(0,0) scale(1);opacity:1}
+    67%{transform:translate(0,0) scale(1)} 69%{transform:translate(0,0) scale(.85)} 71%,90%{transform:translate(0,0) scale(1);opacity:1}
+    98%,100%{transform:translate(14cqw,10cqw);opacity:0}}
+  @keyframes x-acc-sw{0%,19%{background-color:var(--coral)} 22%,69%{background-color:var(--violet)} 72%,100%{background-color:var(--coral)}}
+  @keyframes x-acc{0%,29%{background-color:var(--coral)} 32%,79%{background-color:var(--violet)} 82%,100%{background-color:var(--coral)}}
+  @keyframes x-ring{0%,19%{opacity:0;transform:scale(1)} 22%{opacity:1;transform:scale(1)} 34%{opacity:0;transform:scale(1.25)}
+    68%,69%{opacity:0;transform:scale(1)} 72%{opacity:1;transform:scale(1)} 84%,100%{opacity:0;transform:scale(1.25)}}
+  @keyframes x-dot{0%,21%{opacity:0;transform:translate(0,0)} 22%{opacity:1;transform:translate(0,0)} 30%{opacity:1;transform:translate(var(--tx),var(--ty))}
+    32%{opacity:0;transform:translate(var(--tx),var(--ty))} 70%{opacity:0;transform:translate(0,0)} 72%{opacity:1;transform:translate(0,0)}
+    80%{opacity:1;transform:translate(var(--tx),var(--ty))} 82%,100%{opacity:0;transform:translate(var(--tx),var(--ty))}}
+  @keyframes x-flash{0%,29%{box-shadow:0 0 0 0 rgba(246,196,67,0)} 31%{box-shadow:0 0 0 .6cqw rgba(246,196,67,.95)} 42%,79%{box-shadow:0 0 0 2cqw rgba(246,196,67,0)}
+    81%{box-shadow:0 0 0 .6cqw rgba(246,196,67,.95)} 92%,100%{box-shadow:0 0 0 2cqw rgba(246,196,67,0)}}
+</style>
+
+<script>
+  // pause the loops while they're off screen
+  const stages = document.querySelectorAll<HTMLElement>('.sa');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) e.target.classList.toggle('paused', !e.isIntersecting);
+    });
+    stages.forEach((s) => io.observe(s));
+  }
+</script>

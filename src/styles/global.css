@@ -13,6 +13,9 @@
   /* Brand accent: yellow through gold to a touch of orange */
   --mk-yellow:#FFE680; --mk-gold:#F6C443; --mk-amber:#F09C3C;
   --mk-grad:linear-gradient(90deg,var(--mk-yellow),var(--mk-gold) 50%,var(--mk-amber));
+  /* Fieldwork, the example brand shown in the animations (not Marketann's own type) */
+  --fw-display:"Tilt Warp",ui-sans-serif,system-ui,sans-serif;
+  --fw-text:"Besley",Georgia,"Times New Roman",serif;
   --mk-font:"MK Apercu","Figtree",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
 }
 *{box-sizing:border-box}
@@ -35,9 +38,9 @@ a{color:inherit}
 .mk-logo{display:block;color:var(--mk-text);line-height:0}
 .mk-logo svg{width:auto;display:block}
 
-/* Primary button: cream, squircle, with a gold glow behind it on hover. The glow sits at z-index -1,
+/* Primary button: cream, fully round, with a gold glow behind it on hover. The glow sits at z-index -1,
    so put the button inside something with `isolation:isolate` (both forms are). */
-.mk-btn{position:relative;height:52px;border:0;cursor:pointer;background:var(--mk-text);color:var(--mk-bg);font:700 15px var(--mk-font);text-transform:uppercase;letter-spacing:.04em;padding:0 24px;border-radius:26px;corner-shape:squircle;transition:background .2s,transform .15s}
+.mk-btn{position:relative;height:52px;border:0;cursor:pointer;background:var(--mk-text);color:var(--mk-bg);font:700 15px var(--mk-font);text-transform:uppercase;letter-spacing:.04em;padding:0 24px;border-radius:999px;transition:background .2s,transform .15s}
 .mk-btn::before{content:"";position:absolute;inset:4px;z-index:-1;border-radius:inherit;background:var(--mk-grad);filter:blur(16px);opacity:0;transition:opacity .25s}
 .mk-btn:hover{background:#fff}
 .mk-btn:hover::before,.mk-btn:focus-visible::before{opacity:.85}
@@ -46,6 +49,11 @@ a{color:inherit}
 
 /* Sections below the hero */
 .mk-section{padding-top:128px;padding-bottom:128px;border-top:1px solid var(--mk-line);scroll-margin-top:24px}
+/* Light ("negative") section: re-points the colour tokens, so anything inside that uses them flips */
+.mk-section--light{background:#FFFFFF;border-top:0;
+  --mk-text:#0B0B0C; --mk-body:#4A4A50; --mk-muted:#77777E; --mk-line:#E4E2DC; --mk-field:#F5F4F0;
+  color:var(--mk-text)}
+.mk-section--light ::selection{background:#0B0B0C;color:#FFFFFF}
 .mk-h2{font:600 clamp(32px,3.4vw,48px)/1.08 var(--mk-font);letter-spacing:-.03em;margin:0 0 20px;color:var(--mk-text)}
 .mk-lead{font:400 clamp(17px,1.4vw,20px)/1.5 var(--mk-font);color:var(--mk-body);margin:0;max-width:620px}
 

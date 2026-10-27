@@ -12,7 +12,7 @@
 <p class="mk-note" id="mk-note" aria-live="polite">Early access for a small group of teams.</p>
 
 <style>
-  .mk-form{display:flex;align-items:center;gap:8px;max-width:500px;background:var(--mk-field);border:1px solid var(--mk-line);border-radius:32px;corner-shape:squircle;padding:6px;transition:border-color .2s;isolation:isolate}  /* isolate: keeps the button glow above the fill */
+  .mk-form{display:flex;align-items:center;gap:8px;max-width:500px;background:var(--mk-field);border:1px solid var(--mk-line);border-radius:999px;padding:6px;transition:border-color .2s;isolation:isolate}  /* isolate: keeps the button glow above the fill */
   .mk-form:focus-within{border-color:#55555C}
   input{flex:1;min-width:0;height:52px;background:transparent;border:0;outline:0;
     font:400 17px var(--mk-font);color:var(--mk-text);padding:0 12px 0 14px}
@@ -23,7 +23,7 @@
   .mk-note.err{color:#F08A70}
 
   @media (max-width: 480px){
-    .mk-form{flex-direction:column;align-items:stretch;padding:8px}
+    .mk-form{flex-direction:column;align-items:stretch;padding:8px;border-radius:30px}  /* stacked: pill ends would be too big */
     input{flex:none;width:100%;padding:0 10px}
     button{width:100%}
   }

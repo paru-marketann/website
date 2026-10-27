@@ -95,7 +95,6 @@ export function initBrandEngine(root: HTMLElement): void {
   tw(ring, { o: .8 }, 5.85, .15, 'lin');
   tw(ring, { o: 0, s: 1.08 }, 6.0, .7, 'out');
   tw(group, { dy: ENG.cy - 450, s: ENG.s }, 6.6, .9, 'io');
-  const run = add($('run'), { o: 0 }, 'op');
 
   // ---------- Prompt: once the pieces are in and the panel is up top, the panel grows and the prompt slides in
   tw(engine, { h: PANEL.tall, y: PANEL.top + PANEL.tall / 2 }, 7.35, .55, 'io');
@@ -151,7 +150,6 @@ export function initBrandEngine(root: HTMLElement): void {
     });
 
     const built = emerge + .3 + (parts.length - 1) * .2 + .45;
-    tw(run, { o: 1 }, go, .2, 'lin'); tw(run, { o: 0 }, built, .3, 'lin');
     tw(pglow, { o: 1 }, go, .2, 'out'); tw(pglow, { o: 0 }, built - .3, .5, 'io');
     if (i === 0) stillT = built + .3;
 
