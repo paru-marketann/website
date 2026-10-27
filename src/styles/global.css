@@ -1,6 +1,6 @@
-/* Apercu (Colophon Foundry) is a paid font. Once you have the web licence, put the
-   .woff2 files in public/fonts with these names and the site will use them automatically.
-   Machines with Apercu installed already see it via local(). Until then Figtree stands in. */
+/* Apercu (Colophon Foundry), licensed for web use. The .woff2 files in public/fonts were converted
+   from the desktop .otf files. Machines with Apercu installed use their own copy via local();
+   Figtree stands in only if the files fail to load. */
 @font-face{font-family:"MK Apercu";font-weight:400;font-display:swap;
   src:local("Apercu"),local("Apercu Regular"),local("Apercu-Regular"),local("Apercu Pro Regular"),url("/fonts/apercu-regular.woff2") format("woff2")}
 @font-face{font-family:"MK Apercu";font-weight:500;font-display:swap;

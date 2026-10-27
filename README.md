@@ -35,7 +35,7 @@ src/
     WaitlistForm.astro         email signup (see below)
     BrandEngine/               the hero animation (markup, namespaced CSS, timeline in TS)
 public/
-  fonts/                       Apercu .woff2 files go here once licensed
+  fonts/                       Apercu .woff2 (web licence) + Holiday Journey logo font
 ```
 
 Component styles are scoped by Astro. The one exception is `BrandEngine/brand-engine.css`,
@@ -58,8 +58,9 @@ contact form opens a pre-filled email to info@marketann.ai. The contact form als
 
 ## Fonts
 
-The brand font is Apercu (Colophon Foundry, paid). Until the web licence files are added to
-`public/fonts/`, the site uses Figtree as a stand-in.
+The brand font is Apercu (Colophon Foundry), licensed for web use and self-hosted as .woff2 in
+`public/fonts/` (regular, medium, bold). Headings use Holiday Journey, the logo typeface.
+Figtree from Google Fonts is the fallback if the Apercu files fail to load.
 
 ## Animation debugging
 
