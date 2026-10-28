@@ -4,7 +4,7 @@
 // instead, so no message is silently dropped.
 ---
 
-<section class="mk-section contact-section" id="contact" aria-labelledby="contact-title">
+<section class="mk-section mk-section--light contact-section" id="contact" aria-labelledby="contact-title">
   <div class="mk-wrap contact">
     <div>
       <h2 class="mk-h2" id="contact-title">Contact</h2>
@@ -47,7 +47,7 @@
 </section>
 
 <style>
-  .contact-section{padding-bottom:64px}  /* the footer follows straight on, as part of the same panel */
+  .contact-section{padding-bottom:64px}  /* the light footer follows straight on, as part of the same panel */
   .contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:64px;align-items:start}
   .contact a{color:var(--mk-text);text-underline-offset:3px}
 
@@ -60,14 +60,14 @@
     font:400 17px/1.4 var(--mk-font);color:var(--mk-text);padding:14px 16px;outline:0;transition:border-color .2s}
   textarea{resize:vertical;min-height:140px;border-radius:24px}  /* too tall for pill ends */
   input:focus,textarea:focus{border-color:#55555C}
-  input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#F08A70}
-  .err{font:400 13px var(--mk-font);color:#F08A70;margin:0;min-height:0}
+  input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:#C8401F}
+  .err{font:400 13px var(--mk-font);color:#C8401F;margin:0;min-height:0}
   .err:empty{display:none}
   .trap{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
   .actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:4px}
   .status{font:400 14px var(--mk-font);color:var(--mk-muted);margin:0}
   .status.ok{color:var(--mk-text)}
-  .status.bad{color:#F08A70}
+  .status.bad{color:#C8401F}  /* errors: a deeper coral that reads on white */
 
   @media (max-width: 900px){
     .contact{grid-template-columns:1fr;gap:40px}

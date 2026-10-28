@@ -25,10 +25,7 @@
   --mk-font:"MK Apercu","Figtree",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
 }
 *{box-sizing:border-box}
-/* No scroll-behavior:smooth here: on iPhone it also animates the scrolling the browser app does
-   itself (the Google app, as its toolbars move), and the page could get stuck short of the top.
-   The nav links scroll smoothly from the header script instead. */
-html{background:var(--mk-bg)}
+html{scroll-behavior:smooth;background:var(--mk-bg)}
 body{margin:0;background:var(--mk-bg);color:var(--mk-text);font-family:var(--mk-font);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 a{color:inherit}
 ::selection{background:var(--mk-text);color:var(--mk-bg)}
@@ -63,6 +60,9 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 .mk-btn{position:relative;height:52px;border:0;cursor:pointer;background:var(--mk-text);color:var(--mk-bg);font:700 15px var(--mk-font);text-transform:uppercase;letter-spacing:.04em;padding:0 24px;border-radius:999px;transition:background .2s}
 .mk-btn:hover{background:#fff}  /* hover: just a touch brighter; no glow, no press effect */
 .mk-btn:disabled{opacity:.6;cursor:default}
+/* in a light section the button flips to black with white text */
+.mk-section--light .mk-btn{background:var(--mk-text);color:#FFFFFF}
+.mk-section--light .mk-btn:hover{background:#2A2A2E}
 
 /* Sections below the hero */
 /* position + background: later sections paint over anything that spills out of earlier ones (the examples strip) */

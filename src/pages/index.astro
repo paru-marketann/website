@@ -13,6 +13,15 @@ import Footer from '../components/Footer.astro';
   <Hero />
   <HowItWorks />
   <WhyUs />
-  <ContactForm />
-  <Footer />
+  <!-- contact + footer: one light panel, at least a screen tall, that slides over the nav -->
+  <div class="mk-end">
+    <ContactForm />
+    <Footer />
+  </div>
 </Base>
+
+<style>
+  /* z-index above the fixed nav (50), so the nav disappears behind the panel as it scrolls up */
+  .mk-end{position:relative;z-index:60;min-height:100vh;display:flex;flex-direction:column;background:#FFFFFF}
+  .mk-end > :global(footer){margin-top:auto}  /* any spare height goes above the footer, keeping the logo on the bottom edge */
+</style>

@@ -4,22 +4,32 @@ import Logo from './Logo.astro';
 const year = new Date().getFullYear();
 ---
 
-<footer class="mk-foot">
-  <div class="mk-wrap">
+<footer class="mk-foot mk-section--light">
+  <div class="mk-wrap mk-foot-row">
+    <a class="mk-mail" href="mailto:info@marketann.ai">info@marketann.ai</a>
+    <small>© {year} Marketann</small>
+  </div>
+  <!-- the wordmark across the full page width, its bottom cut off by the page edge -->
+  <div class="mk-foot-mark">
     <a class="mk-logo" href="#top" aria-label="Marketann"><Logo /></a>
-    <div class="mk-foot-r">
-      <a class="mk-mail" href="mailto:info@marketann.ai">info@marketann.ai</a>
-      <small>© {year} Marketann</small>
-    </div>
   </div>
 </footer>
 
 <style>
-  .mk-foot{padding:48px 0 56px}  /* no rule above: the footer runs on from the contact section as one panel */
-  .mk-wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
-  .mk-logo :global(svg){height:16px}
-  .mk-foot-r{display:flex;gap:32px;align-items:center;flex-wrap:wrap}
+  .mk-foot{padding-top:48px;overflow:hidden}  /* light, no rule above: it runs on from the contact section as one panel */
+  .mk-foot-row{display:flex;justify-content:space-between;align-items:center;gap:16px 32px;flex-wrap:wrap}
   .mk-mail{font:500 16px var(--mk-font);text-decoration:none;border-bottom:1px solid var(--mk-muted);padding-bottom:2px;transition:border-color .2s}
   .mk-mail:hover{border-bottom-color:var(--mk-text)}
   small{font:400 13px var(--mk-font);color:var(--mk-muted)}
+
+  /* no side gutters: the wordmark spans the whole page, the M and N bleeding just past the edges.
+     The negative bottom margin (in % of the width, so it scales with the logo) hides the bottom ~5%
+     of the letters: it still pokes out of the page, but the A's legs (which split ~84% down) stay visible */
+  .mk-foot-mark{margin-top:56px}
+  .mk-foot-mark .mk-logo{width:101.6%;margin:0 0 -.8% -.8%}
+  .mk-foot-mark .mk-logo :global(svg){width:100%;height:auto}
+
+  @media (max-width: 900px){
+    .mk-foot-mark{margin-top:40px}
+  }
 </style>
